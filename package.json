@@ -1,0 +1,15 @@
+{
+  "name": "invaderers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "dev": "static -p 3999",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "static": "^2.0.0"
+  }
+}

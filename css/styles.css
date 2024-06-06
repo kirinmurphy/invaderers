@@ -1,0 +1,88 @@
+#wrapper {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#canvas {
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  width: 95vw; 
+  height: 95vw; 
+}
+
+@media (min-aspect-ratio: 1/1) {
+  #canvas {
+    width: 95vh; 
+    height: 95vh; 
+  }
+}
+
+
+#canvas span {
+  display: block;
+  background: #ccc;
+/*   border: 1px solid #fff; */
+  box-sizing: border-box;
+}
+
+#canvas span.active {
+  background: red;
+  transform: scale(1.75);
+  border-radius: 100%;
+}
+
+#canvas span.visited {
+  background: black;
+}
+
+
+#restart {
+  display:none;  
+  position: fixed;
+  top: 1vw;
+  left: 1vw;
+  right: 1vw; 
+  bottom: 1vw;
+  background: rgba(0, 0, 0, .5);
+}
+
+#restart .inner {
+  max-width: 250px;
+  width: 100%;
+  padding: 5rem;
+  margin: 0 auto;
+  text-align: center;
+  position: relative; 
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, .4);
+  color: #fff;
+}
+
+#restart .inner > *:not(:last-child) {
+  margin-bottom: 1rem;  
+}
+
+#restart .message {
+  font-size: 1.5rem;
+}
+
+#restart .score {
+}
+
+button {
+  color: #fff;
+  background: #008855;
+  border: none;
+  padding: .75rem 1.5rem;
+  border-radius: .3rem;
+  font-size: 1.1rem;
+}
