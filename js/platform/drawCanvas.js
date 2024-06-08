@@ -14,13 +14,12 @@ export function drawCanvas ({ canvas, screenHelper, colors }) {
   for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
     for (let columnIndex = 0; columnIndex < columns; columnIndex++) {
       const index = rowIndex * columns + columnIndex + 1;
-      const coordinate = coordinateStatus.getStatus(index);
-      const status = coordinate?.split('--')[0];
+      const status = coordinateStatus.getStatus(index);
        
       // TODO: Move outside of this
-      const fillStyle = status == STATUS.ship 
-        ? getRandomHexColor() : (colors[status] || colors.default);
-      // const fillStyle = colors[status] || colors.default;
+      // const fillStyle = status == STATUS.ship 
+      //   ? getRandomHexColor() : (colors[status] || colors.default);
+      const fillStyle = colors[status] || colors.default;
       ctx.fillStyle = fillStyle;
      
       const rectProps = getRectProps({ 

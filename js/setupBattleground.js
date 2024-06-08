@@ -32,11 +32,11 @@ export function buildFleet ({ screenHelper }) {
     const atLeftEdge = newPos % columns === 1;
     if ( atLeftEdge ) { battleHelper.set(BATTLE_PROPS.atLeftEdge, true); }
 
-    buildShip({ screenHelper, newPos });
+    buildShip({ screenHelper, newPos, fleetIndex: i });
   }
 }
 
-export function buildShip ({ screenHelper, newPos, shipStatus = STATUS.ship }) {
+export function buildShip ({ screenHelper, newPos, shipStatus = STATUS.ship, fleetIndex }) {
   const { screenSettings, coordinateStatus } = screenHelper;
   const { shipSize, columns } = screenSettings;
   
@@ -44,6 +44,6 @@ export function buildShip ({ screenHelper, newPos, shipStatus = STATUS.ship }) {
     const fullRows = Math.floor(i / shipSize);
     const gridPosition = Math.floor(i % shipSize);
     const newField = newPos+gridPosition+(columns*fullRows);
-    coordinateStatus.setStatus(newField, shipStatus);    
+    coordinateStatus.setStatus(newField, shipStatus, fleetIndex || null);    
   }  
 }

@@ -2,30 +2,36 @@ export function createCoordinateStatusHelper() {
   const initialStatusMap = new Map();
   const coordinateStatusMap = new Map(initialStatusMap);
 
-  function setStatus(pos, status) {
-    coordinateStatusMap.set(pos, status);
+  function setStatus(pos, status, shipIndex = null) {
+    coordinateStatusMap.set(pos, { status, shipIndex });
   }
 
   function getStatus(pos) {
-    return coordinateStatusMap.get(pos);
+    const entry = coordinateStatusMap.get(pos);
+    return entry ? entry.status : null;
+  }
+
+  function getShipIndex(pos) {
+    const entry = coordinateStatusMap.get(pos);
+    return entry ? entry.shipIndex : null;
   }
 
   function hasStatus(pos) {
     return coordinateStatusMap.has(pos);
   }
-  
-  function clearStatus (statusToClear) {
+
+  function clearStatus(statusToClear) {
     for (let [key, value] of coordinateStatusMap) {
-      if (value === statusToClear) {
+      if (value.status === statusToClear) {
         coordinateStatusMap.delete(key);
       }
     }
   };
-  
-  function getFinalCount (status) {
+
+  function getFinalCount(status) {
     return [...coordinateStatusMap.values()].reduce((count, value) => {
-      return value === status ? count + 1 : count;
-    }, 0);        
+      return value.status === status ? count + 1 : count;
+    }, 0);
   }
 
   function resetStatus() {
@@ -38,6 +44,7 @@ export function createCoordinateStatusHelper() {
   return {
     getStatus,
     setStatus,
+    getShipIndex,
     hasStatus,
     clearStatus,
     resetStatus,
