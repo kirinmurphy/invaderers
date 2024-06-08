@@ -3,14 +3,9 @@ import { BATTLE_PROPS } from './getBattleHelper.js';
 import { buildShip } from './setupBattleground.js';
 
 export function bindDefenderActions({ screenHelper }) {
-
-  // document.addEventListener('keydown', event => {
-  //   moveAction({ event, screenHelper })
-  // });
-
+  
   document.addEventListener('keydown', (event) => {
     if (event.target.getAttribute('data-last-key') !== event.key) {
-      console.log('event', event.key);
       event.target.setAttribute('data-last-key', event.key);
       initMoveAction({ event, screenHelper });
     }

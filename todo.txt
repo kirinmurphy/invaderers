@@ -1,0 +1,9 @@
+FIX: 
+- can't shoot first targe
+- increased ship size blows up defender edge check 
+
+NEXT: 
+- DOING: add speed increase of ships 
+- defender shots 
+- barriers
+- presentation 

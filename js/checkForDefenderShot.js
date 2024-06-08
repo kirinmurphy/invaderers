@@ -16,7 +16,8 @@ export function checkForDefenderShot ({ screenHelper }) {
     if (currentPositionStatus === STATUS.ship && shipIndex !== null) {
       battleHelper.set(BATTLE_PROPS.defenderShotPosition, null);
       const shipIndex = coordinateStatus.getShipIndex(spotInFrontOfBullets);
-      console.log('shipIndex', shipIndex);
+      battleHelper.addToKillList(shipIndex);
+      coordinateStatus.clearAllPositionsWithShipIndex({ shipIndex });
       return;
     }
 

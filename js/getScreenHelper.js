@@ -1,5 +1,5 @@
 import { COLORS } from './constants.js';
-import { getbattleHelper } from './getBattleHelper.js';
+import { getBattleHelper } from './getBattleHelper.js';
 import { createCoordinateStatusHelper } from './platform/createCoordinateStatusHelper.js';
 import { drawCanvas } from './platform/drawCanvas.js';
 
@@ -9,7 +9,7 @@ export function getScreenHelper ({ containerId }) {
 
   const coordinateStatus = createCoordinateStatusHelper();
   
-  const battleHelper = getbattleHelper({ screenSettings });
+  const battleHelper = getBattleHelper({ screenSettings });
 
   const updateScreen = () => { 
     drawCanvas({ canvas, screenHelper, colors: COLORS });

@@ -18,9 +18,11 @@ function setupDefender ({ screenHelper }) {
 export function buildFleet ({ screenHelper }) {
   const { screenSettings, battleHelper } = screenHelper;
   const { shipRows, shipColumns, shipSize, columns, shipJump } = screenSettings;
-  const deployPosition = battleHelper.get('deployPosition');
+  const { deployPosition, deadBois } = battleHelper.get();
   
   for (let i = 0; i < shipRows*shipColumns; i++ ) {
+    if ( deadBois.has(i) ) continue;
+
     const fullRows = Math.floor(i / shipColumns);
     const gridPosition = Math.floor(i % shipColumns);
     

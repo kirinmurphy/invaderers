@@ -41,6 +41,14 @@ export function createCoordinateStatusHelper() {
     }
   }
 
+  function clearAllPositionsWithShipIndex({ shipIndex }) {
+    for (let [key, value] of coordinateStatusMap) {
+      if (value.shipIndex === shipIndex) {
+        coordinateStatusMap.delete(key);
+      }
+    }
+  }
+
   return {
     getStatus,
     setStatus,
@@ -48,6 +56,7 @@ export function createCoordinateStatusHelper() {
     hasStatus,
     clearStatus,
     resetStatus,
-    getFinalCount
+    getFinalCount,
+    clearAllPositionsWithShipIndex
   };
 }

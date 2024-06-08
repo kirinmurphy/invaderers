@@ -9,10 +9,12 @@ export const BATTLE_PROPS = {
   atLeftEdge: 'atLeftEdge',
   invaderVelocityOffset: 'invaderVelocityOffset',
   defenderShotPosition: 'defenderShotPosition',
+  deadBois: 'deadBois',
 };
 
-export function getbattleHelper ({ screenSettings }) {
-  const fleetBattleState = {
+export function getBattleHelper ({ screenSettings }) {
+
+  const battleState = {
     [BATTLE_PROPS.tick]: 0,
     [BATTLE_PROPS.deployPosition]: getFleetGameStartPosition({ screenSettings }),
     [BATTLE_PROPS.defenderPosition]: getDefenderGameStartPosition({ screenSettings }),
@@ -21,16 +23,18 @@ export function getbattleHelper ({ screenSettings }) {
     [BATTLE_PROPS.atRightEdge]: false,
     [BATTLE_PROPS.atLeftEdge]: false,
     [BATTLE_PROPS.invaderVelocityOffset]: 40,
+    [BATTLE_PROPS.deadBois]: new Map(),
   };
 
   return {
     get: (prop) => { 
-      if (prop) return fleetBattleState[prop];
-      else return { ...fleetBattleState };
+      if (prop) return battleState[prop];
+      else return { ...battleState };
     },
-    set: (prop, value) => fleetBattleState[prop] = value,
-    increment: (prop) => fleetBattleState[prop] = fleetBattleState[prop]+1,
-    decrement: (prop) => fleetBattleState[prop] = fleetBattleState[prop]-1,
+    set: (prop, value) => battleState[prop] = value,
+    increment: (prop) => battleState[prop] = battleState[prop]+1,
+    decrement: (prop) => battleState[prop] = battleState[prop]-1,
+    addToKillList: (shipIndex) => battleState[BATTLE_PROPS.deadBois].set(shipIndex, true),
   }  
 }
 
