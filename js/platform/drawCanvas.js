@@ -1,4 +1,5 @@
-
+// TODO: pass this into drawCanvas instaed of importing
+import { STATUS } from "../constants.js";
 
 export function drawCanvas ({ canvas, screenHelper, colors }) {
   const { screenSettings, coordinateStatus } = screenHelper;
@@ -13,9 +14,13 @@ export function drawCanvas ({ canvas, screenHelper, colors }) {
   for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
     for (let columnIndex = 0; columnIndex < columns; columnIndex++) {
       const index = rowIndex * columns + columnIndex + 1;
-      const status = coordinateStatus.getStatus(index);
-      // const fillStyle = COLORS[status] || getRandomHexColor();
-      const fillStyle = colors[status] || colors.default;
+      const coordinate = coordinateStatus.getStatus(index);
+      const status = coordinate?.split('--')[0];
+       
+      // TODO: Move outside of this
+      const fillStyle = status == STATUS.ship 
+        ? getRandomHexColor() : (colors[status] || colors.default);
+      // const fillStyle = colors[status] || colors.default;
       ctx.fillStyle = fillStyle;
      
       const rectProps = getRectProps({ 
@@ -65,11 +70,11 @@ function getRectProps(props) {
   return { ...baseProps, isCircle: false };
 }
 
-// function getRandomHexColor() {
-//   const letters = '0123456789ABCDEF';
-//   let color = '#';
-//   for (let i = 0; i < 6; i++) {
-//     color += letters[Math.floor(Math.random() * 16)];
-//   }
-//   return color;
-// }
+function getRandomHexColor() {
+  const letters = '89ABCDE';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}

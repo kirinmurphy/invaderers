@@ -9,6 +9,12 @@ export function setupBattleground ({ screenHelper }) {
   updateScreen();        
 }
 
+function setupDefender ({ screenHelper }) {
+  const { battleHelper } = screenHelper;
+  const newPos = battleHelper.get('defenderPosition');
+  buildShip({ screenHelper, newPos, shipStatus: STATUS.defender });  
+};
+
 export function buildFleet ({ screenHelper }) {
   const { screenSettings, battleHelper } = screenHelper;
   const { shipRows, shipColumns, shipSize, columns, shipJump } = screenSettings;
@@ -29,13 +35,6 @@ export function buildFleet ({ screenHelper }) {
     buildShip({ screenHelper, newPos });
   }
 }
-
-function setupDefender ({ screenHelper }) {
-  const { battleHelper } = screenHelper;
-  const newPos = battleHelper.get('defenderPosition');
-  buildShip({ screenHelper, newPos, shipStatus: STATUS.defender });  
-};
-
 
 export function buildShip ({ screenHelper, newPos, shipStatus = STATUS.ship }) {
   const { screenSettings, coordinateStatus } = screenHelper;
