@@ -2,8 +2,8 @@ import { DIRECTIONS } from "./constants.js";
 import { BATTLE_PROPS } from "./getBattleHelper.js";
 
 export function setNextFleetStartPosition ({ screenHelper }) {
-  const { screenSettings, battleHelper } = screenHelper;
-  const { columns } = screenSettings;
+  const { battleHelper, mapObservers } = screenHelper;
+  const { getCell } = mapObservers;
   const { atRightEdge, atLeftEdge, direction } = battleHelper.get();
     
   const pivotLeft = direction === DIRECTIONS.right && atRightEdge;
@@ -18,7 +18,8 @@ export function setNextFleetStartPosition ({ screenHelper }) {
   }
   
   if ( pivotLeft || pivotRight ) {
-    const newPos = battleHelper.get(BATTLE_PROPS.deployPosition) + columns*4;
+    const currentPos = battleHelper.get(BATTLE_PROPS.deployPosition);
+    const newPos = getCell.below(currentPos, { distance: 4 });
     battleHelper.set(BATTLE_PROPS.deployPosition, newPos);
     battleHelper.set(BATTLE_PROPS.atRightEdge, false);      
     battleHelper.set(BATTLE_PROPS.atLeftEdge, false);

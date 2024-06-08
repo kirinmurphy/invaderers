@@ -1,5 +1,8 @@
 import { DIRECTIONS } from "./constants.js";
 
+const DEFENDER_GRID_OFFSET_TOP = .9;
+const INVADER_GRID_OFFSET_TOP = .1;
+
 export const BATTLE_PROPS = {
   tick: 'tick',
   deployPosition: 'deployPosition',
@@ -12,12 +15,13 @@ export const BATTLE_PROPS = {
   deadBois: 'deadBois',
 };
 
-export function getBattleHelper ({ screenSettings }) {
-
+export function getBattleHelper (props) {
+  const { screenSettings, mapObservers } = props;
+  
   const battleState = {
     [BATTLE_PROPS.tick]: 0,
-    [BATTLE_PROPS.deployPosition]: getFleetGameStartPosition({ screenSettings }),
-    [BATTLE_PROPS.defenderPosition]: getDefenderGameStartPosition({ screenSettings }),
+    [BATTLE_PROPS.deployPosition]: getFleetGameStartPosition(props),
+    [BATTLE_PROPS.defenderPosition]: getDefenderGameStartPosition(props),
     [BATTLE_PROPS.defenderShotPosition]: null,
     [BATTLE_PROPS.direction]: DIRECTIONS.right,
     [BATTLE_PROPS.atRightEdge]: false,
@@ -38,25 +42,28 @@ export function getBattleHelper ({ screenSettings }) {
   }  
 }
 
-function getDefenderGameStartPosition ({ screenSettings }) {
-  const { rows, columns, shipSize } = screenSettings;
-  const invaderGridOffsetTop = .9;
-  const starterRow = Math.floor(invaderGridOffsetTop * rows - shipSize);
-  const starterColumn = getInvaderStarterColumn({ screenSettings });
-  return (starterRow-1) * columns + starterColumn;  
+function getDefenderGameStartPosition ({ screenSettings, mapObservers }) {
+  const { shipSize } = screenSettings;
+  const topOffset = DEFENDER_GRID_OFFSET_TOP;
+  return getStartPosition({ screenSettings, mapObservers, topOffset, entityOffset: shipSize });
 }
 
-function getFleetGameStartPosition ({ screenSettings }) {
-  const { rows, columns } = screenSettings;
-  const invaderGridOffsetTop = .1;
-  const starterColumn = getInvaderStarterColumn({ screenSettings });
-  const starterRow = Math.floor(invaderGridOffsetTop * rows);
-  return (starterRow-1) * columns + starterColumn;  
+function getFleetGameStartPosition ({ screenSettings, mapObservers }) {
+  const topOffset = INVADER_GRID_OFFSET_TOP;
+  return getStartPosition({ screenSettings, mapObservers, topOffset });
 }
 
-function getInvaderStarterColumn ({ screenSettings }) {
-  const { columns, shipJump, shipColumns, shipOffset } = screenSettings;
-  const invaderGridWidth = shipJump*shipColumns-shipOffset-1;
-  const invaderGridOffsetLeft = Math.ceil((columns-invaderGridWidth)/2);  
-  return Math.floor(invaderGridOffsetLeft);
+function getStartPosition (props) {
+  const { screenSettings, mapObservers, topOffset, entityOffset = 0 } = props;
+  const { getRowByPercentage, getPositionByCoordinates } = mapObservers;
+  const starterRow = getRowByPercentage({ topOffset, entityOffset });
+  const starterColumn = getInvaderStarterColumn({ screenSettings, mapObservers });
+  return getPositionByCoordinates({ row: starterRow-1, column: starterColumn });  
+}
+
+function getInvaderStarterColumn ({ screenSettings, mapObservers }) {
+  const { shipJump, shipColumns, shipOffset } = screenSettings;
+  const { getCenteredLeftOffset } = mapObservers;
+  const invaderFleetWidth = shipJump*shipColumns-shipOffset-1;
+  return getCenteredLeftOffset({ entityColumns: invaderFleetWidth }); 
 }

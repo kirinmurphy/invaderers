@@ -2,8 +2,9 @@ import { DIRECTIONS, STATUS } from './constants.js';
 import { BATTLE_PROPS } from './getBattleHelper.js';
 import { buildShip } from './setupBattleground.js';
 
+const BULLET_DISTANCE = 3;
+
 export function bindDefenderActions({ screenHelper }) {
-  
   document.addEventListener('keydown', (event) => {
     if (event.target.getAttribute('data-last-key') !== event.key) {
       event.target.setAttribute('data-last-key', event.key);
@@ -25,7 +26,6 @@ export function bindDefenderActions({ screenHelper }) {
   });
 }
 
-
 function initMoveAction (props) {
   const { event } = props;
   const { key } = event;
@@ -39,7 +39,6 @@ function initMoveAction (props) {
   };
   setTimeout(repeatAction, 50);
 };
-
 
 // function moveAction (event) {
 //   switch (event.key) {
@@ -60,51 +59,61 @@ function moveAction ({ event: { key }, screenHelper }) {
   !!direction && moveDefender({ screenHelper, direction });
 }
 
-const moveDistance = 3;
 const firstIndex = 1;
 const moveDefenderConfig = {
   [DIRECTIONS.left]: {
-    canMove: ({ position, columns }) => position % columns > firstIndex,
-    getNextPos: ({ position, columns }) => { 
-      const nextSpot = position - moveDistance;
-      const nextColumnIndex = nextSpot % columns;
-      const adjustedOffset = moveDistance - firstIndex - nextColumnIndex;
-      const adjustedMoveDistance = nextColumnIndex > firstIndex ? moveDistance : adjustedOffset;
-      return position - adjustedMoveDistance;
+    canMove: ({ mapObservers: { isAtLeftEdge }, position }) => { 
+      return !isAtLeftEdge({ newPos: position, firstIndex });
+    },
+    getNextPos: ({ position, mapObservers }) => { 
+      const { getCell, getColumnIndex } = mapObservers; 
+      const nextSpot = getCell.toTheLeft(position, { distance: BULLET_DISTANCE });
+      const nextColumnIndex = getColumnIndex({ position: nextSpot });
+      const adjustedOffset = BULLET_DISTANCE - firstIndex - nextColumnIndex;
+      const adjustedDistance = nextColumnIndex > firstIndex ? BULLET_DISTANCE : adjustedOffset;
+      return position - adjustedDistance;
     }
   },
-  [DIRECTIONS.right]: {
-    canMove: ({ position, columns, shipSize }) => position % columns < columns-shipSize,
-    getNextPos: ({ position, columns, shipSize }) => { 
-      const maxIndex = columns - shipSize + firstIndex;
-      const nextSpot = position + moveDistance;
-      const nextColumnIndex = nextSpot % columns;
-      const adjustedOffset = moveDistance - (nextColumnIndex - maxIndex);
-      const adjustedMoveDistance = nextColumnIndex < maxIndex ? moveDistance : adjustedOffset;
+  [DIRECTIONS.right]: {   
+    canMove: ({ mapObservers: { isAtRightEdge }, position, shipSize }) => { 
+      return !isAtRightEdge({ newPos: position, itemOffset:shipSize });
+    },
+    getNextPos: ({ position, mapObservers, shipSize }) => {
+      const { getCell, getColumnIndex, getMaxColumnIndex } = mapObservers; 
+      const maxIndex = getMaxColumnIndex({ entitySize: shipSize });
+      const nextSpot = getCell.toTheRight(position, { distance: BULLET_DISTANCE });
+      const nextColumnIndex = getColumnIndex({ position: nextSpot });
+      const adjustedOffset = BULLET_DISTANCE - (nextColumnIndex - maxIndex);
+      const adjustedMoveDistance = nextColumnIndex < maxIndex ? BULLET_DISTANCE : adjustedOffset;
       return position + adjustedMoveDistance;
     }
   }
 }
 
 function moveDefender ({ screenHelper, direction }) {
-  const { battleHelper, screenSettings, coordinateStatus } = screenHelper;
-  const { columns, shipSize, } = screenSettings;
+  const { battleHelper, screenSettings, coordinateStatus, mapObservers } = screenHelper;
+  const { shipSize } = screenSettings;
   const position = battleHelper.get(BATTLE_PROPS.defenderPosition);
-  const canMove = moveDefenderConfig[direction].canMove({ position, columns, shipSize });
+  const canMove = moveDefenderConfig[direction].canMove({ mapObservers, position, shipSize });
   if ( canMove ) {
     coordinateStatus.clearStatus(STATUS.defender);
-    const newPos = moveDefenderConfig[direction].getNextPos({ position, columns, shipSize });
+    const directionConfig = moveDefenderConfig[direction];
+    const newPos = directionConfig.getNextPos({ position, shipSize, mapObservers });
     battleHelper.set(BATTLE_PROPS.defenderPosition, newPos);
     buildShip({ screenHelper, newPos, shipStatus: STATUS.defender });
   }
 };
 
 function defendYoself ({ screenHelper }) {
-  const { battleHelper, screenSettings } = screenHelper;
-  const { columns, shipSize } = screenSettings;
+  const { battleHelper, screenSettings, mapObservers } = screenHelper;
+  const { getCell } = mapObservers;
+  const { shipSize } = screenSettings;
   const { defenderShotPosition } = battleHelper.get();
-  if ( !!defenderShotPosition ) { return; }
+  const alreadyABulletOnScreen = !!defenderShotPosition;
+  if ( alreadyABulletOnScreen ) { return; }
   const defenderPosition = battleHelper.get(BATTLE_PROPS.defenderPosition);
-  const bulletStartPosition = defenderPosition + Math.floor(shipSize/2) - columns*3;
-  battleHelper.set(BATTLE_PROPS.defenderShotPosition, bulletStartPosition);
+  const middleOfShip = Math.floor(shipSize/2);
+  const shipTurretPos = defenderPosition + middleOfShip;
+  const bulletStartPos = getCell.above(shipTurretPos, { distance: BULLET_DISTANCE });
+  battleHelper.set(BATTLE_PROPS.defenderShotPosition, bulletStartPos);
 }

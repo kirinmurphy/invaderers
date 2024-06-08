@@ -3,10 +3,10 @@ import { BATTLE_PROPS } from "./getBattleHelper.js";
 
 export function setupBattleground ({ screenHelper }) {
   const { battleHelper, updateScreen } = screenHelper;
-  const fleetStartPosition = battleHelper.get('startPosition');
+  const fleetStartPosition = battleHelper.get(BATTLE_PROPS.fleetStartPosition);
   buildFleet({ screenHelper, fleetStartPosition });
   setupDefender({ screenHelper });  
-  updateScreen();        
+  updateScreen();
 }
 
 function setupDefender ({ screenHelper }) {
@@ -16,36 +16,50 @@ function setupDefender ({ screenHelper }) {
 };
 
 export function buildFleet ({ screenHelper }) {
-  const { screenSettings, battleHelper } = screenHelper;
-  const { shipRows, shipColumns, shipSize, columns, shipJump } = screenSettings;
+  const { screenSettings, battleHelper, mapObservers } = screenHelper;
+  const { getNextEntityPosition, isAtRightEdge, isAtLeftEdge } = mapObservers;
+  const { shipRows, shipColumns, shipSize, shipJump } = screenSettings;
   const { deployPosition, deadBois } = battleHelper.get();
   
-  for (let i = 0; i < shipRows*shipColumns; i++ ) {
-    if ( deadBois.has(i) ) continue;
+  for (let index = 0; index < shipRows*shipColumns; index++ ) {
+    if ( deadBois.has(index) ) continue;
 
-    const fullRows = Math.floor(i / shipColumns);
-    const gridPosition = Math.floor(i % shipColumns);
-    
-    const newPos = deployPosition + (fullRows*columns*shipJump) 
-      + (gridPosition*shipJump);
-    
-    const atRightEdge = (newPos % columns) + shipSize-1 === columns;
+    const newPos = getNextEntityPosition({ 
+      currentPos: deployPosition,
+      index, 
+      entityColumns: shipColumns,
+      itemOffset: shipJump
+    }); 
+        
+    const atRightEdge = isAtRightEdge({ newPos, itemOffset: shipSize });
     if ( atRightEdge ) { battleHelper.set(BATTLE_PROPS.atRightEdge, true); }
-    const atLeftEdge = newPos % columns === 1;
+    const atLeftEdge = isAtLeftEdge({ newPos });
     if ( atLeftEdge ) { battleHelper.set(BATTLE_PROPS.atLeftEdge, true); }
 
-    buildShip({ screenHelper, newPos, fleetIndex: i });
+    buildShip({ 
+      screenHelper, newPos, shipStatus: STATUS.ship, fleetIndex: index 
+    });
   }
 }
 
-export function buildShip ({ screenHelper, newPos, shipStatus = STATUS.ship, fleetIndex }) {
-  const { screenSettings, coordinateStatus } = screenHelper;
-  const { shipSize, columns } = screenSettings;
+export function buildShip (props) {
+  const { screenHelper, newPos, shipStatus, fleetIndex } = props
+  const { screenSettings, coordinateStatus, mapObservers } = screenHelper;
+  const { getNextEntityPosition } = mapObservers;
+  const { shipSize } = screenSettings;
   
-  for ( let i = 0; i < shipSize*shipSize; i++) {
-    const fullRows = Math.floor(i / shipSize);
-    const gridPosition = Math.floor(i % shipSize);
-    const newField = newPos+gridPosition+(columns*fullRows);
-    coordinateStatus.setStatus(newField, shipStatus, fleetIndex || null);    
+  for ( let index = 0; index < shipSize*shipSize; index++ ) {
+    const position = getNextEntityPosition({ 
+      currentPos: newPos,
+      index, 
+      entityColumns: shipSize,
+    });
+
+    coordinateStatus.setStatus({ 
+      position, 
+      status: shipStatus, 
+      statusIndex: fleetIndex || null
+    });    
   }  
 }
+

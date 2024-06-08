@@ -2,14 +2,17 @@ import { COLORS } from './constants.js';
 import { getBattleHelper } from './getBattleHelper.js';
 import { createCoordinateStatusHelper } from './platform/createCoordinateStatusHelper.js';
 import { drawCanvas } from './platform/drawCanvas.js';
+import { getMapObservers } from './platform/getMapObservers.js';
 
 export function getScreenHelper ({ containerId }) {
   const canvas = document.getElementById(containerId);
   const screenSettings = getScreenSettings({ canvas });
 
   const coordinateStatus = createCoordinateStatusHelper();
+
+  const mapObservers = getMapObservers({ screenSettings });
   
-  const battleHelper = getBattleHelper({ screenSettings });
+  const battleHelper = getBattleHelper({ screenSettings, mapObservers });
 
   const updateScreen = () => { 
     drawCanvas({ canvas, screenHelper, colors: COLORS });
@@ -19,10 +22,11 @@ export function getScreenHelper ({ containerId }) {
     changeDirection(starterDirection);
     coordinateStatus.resetStatus();
   };
-
+  
   const screenHelper = {
     screenSettings,
     coordinateStatus,
+    mapObservers,
     battleHelper,
     updateScreen,
     resetGame,
@@ -52,3 +56,5 @@ function getScreenSettings ({ canvas }) {
 
   return settings;
 }
+
+
