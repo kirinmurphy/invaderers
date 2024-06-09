@@ -1,5 +1,5 @@
-import { STATUS } from "./constants.js";
-import { BATTLE_PROPS } from "./getBattleHelper.js";
+import { STATUS } from "../helpers/constants.js";
+import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
 
 export function checkForDefenderShot ({ screenHelper }) {
   const { mapCoordinates, battleHelper, mapObservers } = screenHelper;

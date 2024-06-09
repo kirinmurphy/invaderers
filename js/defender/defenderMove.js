@@ -1,6 +1,6 @@
-import { DIRECTIONS, STATUS } from './constants.js';
-import { BATTLE_PROPS } from './getBattleHelper.js';
-import { buildEntity } from './setupBattleground.js';
+import { buildEntity } from '../helpers/buildEntity.js';
+import { DIRECTIONS, STATUS } from '../helpers/constants.js';
+import { BATTLE_PROPS } from '../helpers/getBattleHelper.js';
 
 const MOVE_DISTANCE = 3;
 

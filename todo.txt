@@ -7,3 +7,10 @@ NEXT:
 - defender shots 
 - barriers
 - presentation 
+
+
+invader shoots
+- in buildInvaderFleet, assigns position of X random ships to new Map in battleHelper
+- in startGame animate fn, set a tick mark to check shooters  
+  - if there are shooters, FIRE
+    - add shooters after fleet gets built  

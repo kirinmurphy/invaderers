@@ -1,4 +1,4 @@
-import { BATTLE_PROPS } from "./getBattleHelper.js";
+import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
 
 const BULLET_DISTANCE = 3;
 

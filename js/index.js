@@ -1,6 +1,6 @@
-import { bindDefenderActions } from './defenderActions.js';
+import { bindDefenderActions } from './defender/defenderActions.js';
 import { bindRestart } from './endGame.js';
-import { getScreenHelper } from './getScreenHelper.js';
+import { getScreenHelper } from './helpers/getScreenHelper.js';
 import { setupBattleground } from './setupBattleground.js';
 import { startGame } from './startGame.js';
 

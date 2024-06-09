@@ -1,8 +1,8 @@
-import { STATUS } from "./constants.js";
-import { BATTLE_PROPS } from "./getBattleHelper.js";
-import { setNextFleetStartPosition } from "./setNextFleetStartPosition.js";
-import { buildFleet } from "./setupBattleground.js";
-import { checkForDefenderShot } from "./checkForDefenderShot.js";
+import { STATUS } from "./helpers/constants.js";
+import { BATTLE_PROPS } from "./helpers/getBattleHelper.js";
+import { buildInvaderFleet } from "./invaders/buildInvaderFleet.js";
+import { setNextFleetStartPosition } from "./invaders/setNextFleetStartPosition.js";
+import { checkForDefenderShot } from "./defender/checkForDefenderShot.js";
 
 export function startGame({ screenHelper }) {
   const { updateScreen, battleHelper } = screenHelper; 
@@ -15,6 +15,7 @@ export function startGame({ screenHelper }) {
     const tick = get(BATTLE_PROPS.tick);
     if (tick % invaderVelocityOffset === 1) { moveFleet({ screenHelper }); } 
     if (tick % 2 == 0) { checkForDefenderShot({ screenHelper }); }
+    if (tick % 4 == 0) { invaderAttack({ battleHelper }); }
     // TODO:  accelerate fleet speed
     // if ( tick % 200 === 0 ) {
     //   const newOffset = invaderVelocityOffset > 10 ? invaderVelocityOffset - 10 : 1;
@@ -29,9 +30,14 @@ export function startGame({ screenHelper }) {
   requestAnimationFrame(animate);
 }
 
+function invaderAttack({ battleHelper }) {
+  const { shooters } = battleHelper.get();
+  console.log('yooooo', shooters);
+}
+
 function moveFleet ({ screenHelper }) {
   const { mapCoordinates } = screenHelper;
   mapCoordinates.clearStatus(STATUS.ship);
   setNextFleetStartPosition({ screenHelper });
-  buildFleet({ screenHelper });
+  buildInvaderFleet({ screenHelper });
 }

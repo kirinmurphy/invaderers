@@ -1,3 +1,4 @@
+import { getRandomizedIndexCollection } from "../platform/getRandomizedIndexCollection.js";
 import { DIRECTIONS } from "./constants.js";
 
 const OFFSET_TOP_PERCENTAGE_DEFENDER = 90;
@@ -13,6 +14,7 @@ export const BATTLE_PROPS = {
   invaderVelocityOffset: 'invaderVelocityOffset',
   defenderShotPosition: 'defenderShotPosition',
   deadBois: 'deadBois',
+  shooters: 'shooters',
 };
 
 export function getBattleHelper ({ screenSettings, mapObservers }) {  
@@ -26,6 +28,7 @@ export function getBattleHelper ({ screenSettings, mapObservers }) {
     [BATTLE_PROPS.atLeftEdge]: false,
     [BATTLE_PROPS.invaderVelocityOffset]: 40,
     [BATTLE_PROPS.deadBois]: new Map(),
+    [BATTLE_PROPS.shooters]: new Set(),
   };
 
   return {
@@ -37,6 +40,11 @@ export function getBattleHelper ({ screenSettings, mapObservers }) {
     increment: (prop) => battleState[prop] = battleState[prop]+1,
     decrement: (prop) => battleState[prop] = battleState[prop]-1,
     addToKillList: (shipIndex) => battleState[BATTLE_PROPS.deadBois].set(shipIndex, true),
+    addShooters: ({ totalCount, returnCount }) => { 
+      const shooterSet = getRandomizedIndexCollection({totalCount, returnCount });
+      battleState[BATTLE_PROPS.shooters] = shooterSet; 
+    },
+    clearShooters: () => battleState[BATTLE_PROPS.shooters].clear(), 
   }  
 }
 
@@ -70,3 +78,4 @@ function getInvaderStarterColumn ({ screenSettings, mapObservers }) {
   const invaderFleetWidth = shipJump*shipColumns-shipOffset-1;
   return getCenteredLeftOffset({ entityColumns: invaderFleetWidth }); 
 }
+

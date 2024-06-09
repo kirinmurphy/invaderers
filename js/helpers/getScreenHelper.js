@@ -1,5 +1,5 @@
 import { COLORS } from './constants.js';
-import { initializeCanvas } from './platform/initializeCanvas.js';
+import { initializeCanvas } from '../platform/initializeCanvas.js';
 import { getBattleHelper } from './getBattleHelper.js';
 
 export function getScreenHelper ({ containerId }) {

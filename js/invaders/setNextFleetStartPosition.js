@@ -1,5 +1,5 @@
-import { DIRECTIONS } from "./constants.js";
-import { BATTLE_PROPS } from "./getBattleHelper.js";
+import { DIRECTIONS } from "../helpers/constants.js";
+import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
 
 export function setNextFleetStartPosition ({ screenHelper }) {
   const { battleHelper, mapObservers } = screenHelper;
