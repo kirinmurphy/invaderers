@@ -28,7 +28,7 @@ export function getBattleHelper ({ screenSettings, mapObservers }) {
     [BATTLE_PROPS.atLeftEdge]: false,
     [BATTLE_PROPS.invaderVelocityOffset]: 40,
     [BATTLE_PROPS.deadBois]: new Map(),
-    [BATTLE_PROPS.shooters]: new Set(),
+    [BATTLE_PROPS.shooters]: new Map(),
   };
 
   return {
@@ -40,9 +40,8 @@ export function getBattleHelper ({ screenSettings, mapObservers }) {
     increment: (prop) => battleState[prop] = battleState[prop]+1,
     decrement: (prop) => battleState[prop] = battleState[prop]-1,
     addToKillList: (shipIndex) => battleState[BATTLE_PROPS.deadBois].set(shipIndex, true),
-    addShooters: ({ totalCount, returnCount }) => { 
-      const shooterSet = getRandomizedIndexCollection({totalCount, returnCount });
-      battleState[BATTLE_PROPS.shooters] = shooterSet; 
+    addShooters: ({ randomShooterSet }) => { 
+      battleState[BATTLE_PROPS.shooters] = randomShooterSet; 
     },
     clearShooters: () => battleState[BATTLE_PROPS.shooters].clear(), 
   }  
@@ -78,4 +77,3 @@ function getInvaderStarterColumn ({ screenSettings, mapObservers }) {
   const invaderFleetWidth = shipJump*shipColumns-shipOffset-1;
   return getCenteredLeftOffset({ entityColumns: invaderFleetWidth }); 
 }
-

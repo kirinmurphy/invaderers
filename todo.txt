@@ -1,16 +1,16 @@
 FIX: 
-- can't shoot first targe
+- can't shoot first target
 - increased ship size blows up defender edge check 
 
 NEXT: 
 - DOING: add speed increase of ships 
-- defender shots 
+- DOING: defender shots 
 - barriers
 - presentation 
+- end game 
 
 
 invader shoots
-- in buildInvaderFleet, assigns position of X random ships to new Map in battleHelper
 - in startGame animate fn, set a tick mark to check shooters  
   - if there are shooters, FIRE
     - add shooters after fleet gets built  

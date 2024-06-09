@@ -6,20 +6,26 @@ export function getMapObservers ({ screenSettings }) {
     below: (currentPos, { distance = 1 } = {}) => currentPos + mapColumns * distance,
     toTheLeft: (currentPos, { distance = 1 } = {}) => currentPos - 1 * distance,
     toTheRight: (currentPos, { distance = 1 } = {}) => currentPos + 1 * distance,
+    at: (currentPos, { xDistance, yDistance }) => {
+      return Math.floor(currentPos + xDistance + (mapColumns * yDistance));
+    }
   }
 
   const getColumnIndex = ({ position }) => position % mapColumns;
   
-  const isAtRightEdge = ({ newPos, itemOffset }) => {
-    return (newPos % mapColumns) + itemOffset-1 === mapColumns;
-  }
-  
-  const isAtLeftEdge = ({ newPos, firstIndex = 1 }) => {
-    return newPos % mapColumns === firstIndex;
-  }
-
-  const isAtTopRow =({ newPos }) => {
-    return newPos / mapColumns < 1
+  const isAt = {
+    rightEdge: ({ newPos, itemOffset }) => {
+      return (newPos % mapColumns) + itemOffset-1 === mapColumns;
+    },
+    leftEdge: ({ newPos, firstIndex = 1 }) => {
+      return newPos % mapColumns === firstIndex;
+    },
+    topRow: ({ newPos }) => {
+      return newPos / mapColumns < 1
+    },
+    bottomRow: ({ newPos }) => {
+      return newPos > (mapColumns - 1) * mapRows;
+    }
   }
 
   const getNextEntityPosition = (props) => {
@@ -50,10 +56,8 @@ export function getMapObservers ({ screenSettings }) {
 
   return {
     getCell,
+    isAt,
     getColumnIndex,
-    isAtRightEdge,
-    isAtLeftEdge,
-    isAtTopRow,
     getNextEntityPosition,
     getRowByMapPercentage,
     getPositionByCoordinates,

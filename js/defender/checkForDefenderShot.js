@@ -38,9 +38,9 @@ function obliterateInvader ({ screenHelper, invaderIndex }) {
 }
 
 function getNextShotPosition ({ mapObservers, defenderShotPosition, bulletLength }) {
-  const { getCell, isAtTopRow } = mapObservers;
+  const { getCell, isAt } = mapObservers;
   const newPos = getCell.above(defenderShotPosition, { distance: bulletLength });
-  const moreBoardToGo = !isAtTopRow({ newPos });
+  const moreBoardToGo = !isAt.topRow({ newPos });
   return moreBoardToGo ? newPos : null;
 }
 

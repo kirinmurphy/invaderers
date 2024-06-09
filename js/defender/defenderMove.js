@@ -47,8 +47,8 @@ function moveAction ({ event: { key }, screenHelper }) {
 const firstIndex = 1;
 const moveDefenderConfig = {
   [DIRECTIONS.left]: {
-    canMove: ({ mapObservers: { isAtLeftEdge }, position }) => { 
-      return !isAtLeftEdge({ newPos: position, firstIndex });
+    canMove: ({ mapObservers: { isAt }, position }) => { 
+      return !isAt.leftEdge({ newPos: position, firstIndex });
     },
     getNextPos: ({ position, mapObservers }) => { 
       const { getCell, getColumnIndex } = mapObservers; 
@@ -60,8 +60,8 @@ const moveDefenderConfig = {
     }
   },
   [DIRECTIONS.right]: {   
-    canMove: ({ mapObservers: { isAtRightEdge }, position, shipSize }) => { 
-      return !isAtRightEdge({ newPos: position, itemOffset:shipSize });
+    canMove: ({ mapObservers: { isAt }, position, shipSize }) => { 
+      return !isAt.rightEdge({ newPos: position, itemOffset:shipSize });
     },
     getNextPos: ({ position, mapObservers, shipSize }) => {
       const { getCell, getColumnIndex, getMaxColumnIndex } = mapObservers; 

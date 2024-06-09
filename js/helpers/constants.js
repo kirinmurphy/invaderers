@@ -4,6 +4,7 @@ export const STATUS = {
   ship: 'ship',
   defender: 'defender',
   defenderShot: 'defenderShot',
+  invaderShot: 'invaderShot',
 }
 
 export const DIRECTIONS = {
@@ -17,5 +18,6 @@ export const COLORS = {
   [STATUS.ship]: '#6f6',
   [STATUS.defender]: '#F84',
   [STATUS.defenderShot]: 'orange',
+  [STATUS.invaderShot]: 'red',
   default: '#346'
 };
