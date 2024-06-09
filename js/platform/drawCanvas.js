@@ -1,8 +1,5 @@
-// TODO: pass this into drawCanvas instaed of importing
-import { STATUS } from "../constants.js";
-
-export function drawCanvas ({ canvas, screenHelper, colors }) {
-  const { screenSettings, coordinateStatus } = screenHelper;
+export function drawCanvas (props) {
+  const { canvas, screenSettings, mapCoordinates, fillColors } = props;
   const { rows, columns, cellWidth, cellHeight } = screenSettings;
 
   const ctx = canvas.getContext('2d');
@@ -14,12 +11,12 @@ export function drawCanvas ({ canvas, screenHelper, colors }) {
   for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
     for (let columnIndex = 0; columnIndex < columns; columnIndex++) {
       const index = rowIndex * columns + columnIndex + 1;
-      const status = coordinateStatus.getStatus(index);
-       
+      const status = mapCoordinates.getStatus(index);
+      
       // TODO: Move outside of this
       // const fillStyle = status == STATUS.ship 
-      //   ? getRandomHexColor() : (colors[status] || colors.default);
-      const fillStyle = colors[status] || colors.default;
+      //   ? getRandomHexColor() : (fillColors[status] || fillColors.default);
+      const fillStyle = fillColors[status] || fillColors.default;
       ctx.fillStyle = fillStyle;
      
       const rectProps = getRectProps({ 

@@ -8,7 +8,6 @@ export function startGame({ screenHelper }) {
   const { updateScreen, battleHelper } = screenHelper; 
   const { increment, get, set } = battleHelper;
   
-
   const animate = () => {
     const invaderVelocityOffset = get(BATTLE_PROPS.invaderVelocityOffset);
 
@@ -31,8 +30,8 @@ export function startGame({ screenHelper }) {
 }
 
 function moveFleet ({ screenHelper }) {
-  const { coordinateStatus } = screenHelper;
-  coordinateStatus.clearStatus(STATUS.ship);
+  const { mapCoordinates } = screenHelper;
+  mapCoordinates.clearStatus(STATUS.ship);
   setNextFleetStartPosition({ screenHelper });
   buildFleet({ screenHelper });
 }

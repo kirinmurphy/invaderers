@@ -32,8 +32,8 @@ export function getMapObservers ({ screenSettings }) {
     return currentPos + rowStartIndex + columnOffset;
   }
 
-  const getRowByPercentage = ({ topOffset, entityOffset = 0 }) => {
-    return Math.floor(topOffset * mapRows - entityOffset);
+  const getRowByMapPercentage = ({ topOffsetPercent, entityOffset = 0 }) => {
+    return Math.floor(topOffsetPercent/100 * mapRows - entityOffset);
   };
 
   const getPositionByCoordinates = ({ row, column }) => {
@@ -55,7 +55,7 @@ export function getMapObservers ({ screenSettings }) {
     isAtLeftEdge,
     isAtTopRow,
     getNextEntityPosition,
-    getRowByPercentage,
+    getRowByMapPercentage,
     getPositionByCoordinates,
     getCenteredLeftOffset,
     getMaxColumnIndex

@@ -26,24 +26,6 @@
 }
 
 
-#canvas span {
-  display: block;
-  background: #ccc;
-/*   border: 1px solid #fff; */
-  box-sizing: border-box;
-}
-
-#canvas span.active {
-  background: red;
-  transform: scale(1.75);
-  border-radius: 100%;
-}
-
-#canvas span.visited {
-  background: black;
-}
-
-
 #restart {
   display:none;  
   position: fixed;

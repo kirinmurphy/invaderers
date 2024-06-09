@@ -1,7 +1,7 @@
 import { DIRECTIONS } from "./constants.js";
 
-const DEFENDER_GRID_OFFSET_TOP = .9;
-const INVADER_GRID_OFFSET_TOP = .1;
+const OFFSET_TOP_PERCENTAGE_DEFENDER = 90;
+const OFFSET_TOP_PERCENTAGE_INVADER_FLEET = 10;
 
 export const BATTLE_PROPS = {
   tick: 'tick',
@@ -15,13 +15,11 @@ export const BATTLE_PROPS = {
   deadBois: 'deadBois',
 };
 
-export function getBattleHelper (props) {
-  const { screenSettings, mapObservers } = props;
-  
+export function getBattleHelper ({ screenSettings, mapObservers }) {  
   const battleState = {
     [BATTLE_PROPS.tick]: 0,
-    [BATTLE_PROPS.deployPosition]: getFleetGameStartPosition(props),
-    [BATTLE_PROPS.defenderPosition]: getDefenderGameStartPosition(props),
+    [BATTLE_PROPS.deployPosition]: getFleetGameStartPosition({ screenSettings, mapObservers }),
+    [BATTLE_PROPS.defenderPosition]: getDefenderGameStartPosition({ screenSettings, mapObservers }),
     [BATTLE_PROPS.defenderShotPosition]: null,
     [BATTLE_PROPS.direction]: DIRECTIONS.right,
     [BATTLE_PROPS.atRightEdge]: false,
@@ -44,19 +42,24 @@ export function getBattleHelper (props) {
 
 function getDefenderGameStartPosition ({ screenSettings, mapObservers }) {
   const { shipSize } = screenSettings;
-  const topOffset = DEFENDER_GRID_OFFSET_TOP;
-  return getStartPosition({ screenSettings, mapObservers, topOffset, entityOffset: shipSize });
+  const topOffsetPercent = OFFSET_TOP_PERCENTAGE_DEFENDER;
+  return getStartPosition({ 
+    screenSettings, 
+    mapObservers, 
+    topOffsetPercent, 
+    entityOffset: shipSize 
+  });
 }
 
 function getFleetGameStartPosition ({ screenSettings, mapObservers }) {
-  const topOffset = INVADER_GRID_OFFSET_TOP;
-  return getStartPosition({ screenSettings, mapObservers, topOffset });
+  const topOffsetPercent = OFFSET_TOP_PERCENTAGE_INVADER_FLEET;
+  return getStartPosition({ screenSettings, mapObservers, topOffsetPercent });
 }
 
 function getStartPosition (props) {
-  const { screenSettings, mapObservers, topOffset, entityOffset = 0 } = props;
-  const { getRowByPercentage, getPositionByCoordinates } = mapObservers;
-  const starterRow = getRowByPercentage({ topOffset, entityOffset });
+  const { screenSettings, mapObservers, topOffsetPercent, entityOffset = 0 } = props;
+  const { getRowByMapPercentage, getPositionByCoordinates } = mapObservers;
+  const starterRow = getRowByMapPercentage({ topOffsetPercent, entityOffset });
   const starterColumn = getInvaderStarterColumn({ screenSettings, mapObservers });
   return getPositionByCoordinates({ row: starterRow-1, column: starterColumn });  
 }

@@ -1,60 +1,36 @@
 import { COLORS } from './constants.js';
+import { initializeCanvas } from './platform/initializeCanvas.js';
 import { getBattleHelper } from './getBattleHelper.js';
-import { createCoordinateStatusHelper } from './platform/createCoordinateStatusHelper.js';
-import { drawCanvas } from './platform/drawCanvas.js';
-import { getMapObservers } from './platform/getMapObservers.js';
 
 export function getScreenHelper ({ containerId }) {
-  const canvas = document.getElementById(containerId);
-  const screenSettings = getScreenSettings({ canvas });
-
-  const coordinateStatus = createCoordinateStatusHelper();
-
-  const mapObservers = getMapObservers({ screenSettings });
-  
-  const battleHelper = getBattleHelper({ screenSettings, mapObservers });
-
-  const updateScreen = () => { 
-    drawCanvas({ canvas, screenHelper, colors: COLORS });
-  }
-
-  const resetGame = () => {
-    changeDirection(starterDirection);
-    coordinateStatus.resetStatus();
-  };
-  
-  const screenHelper = {
-    screenSettings,
-    coordinateStatus,
-    mapObservers,
-    battleHelper,
-    updateScreen,
-    resetGame,
-  };
-  
-  return screenHelper;
+  // initializeCanvas returns
+  // screenSettings: default map settings, extended by bindCustomSettings
+  // mapCoordinates: coordinate helper to get/set properties of game map 
+  // mapObservers: helper methods to get relative coordinates of game map
+  // updateScreen: redraws map with whatever properties in mapCoordinates 
+  // ... and all properties returned by bindCustomHelpers 
+  return initializeCanvas({ 
+    containerId, 
+    fillColors: COLORS, 
+    bindCustomSettings,
+    bindCustomHelpers
+  });
 }
 
-function getScreenSettings ({ canvas }) {
-  const rows = Number(canvas.getAttribute('rows'));
-  const columns = Number(canvas.getAttribute('columns'));
-
-  const settings = { 
-    rows, 
-    columns, 
-    cellCount: rows * columns, 
-    cellWidth: canvas.width / columns,
-    cellHeight: canvas.height / rows,
+function bindCustomSettings (canvas) { 
+  const shipOffset = Number(canvas.getAttribute('shipOffset'));
+  return {
     shipColumns: Number(canvas.getAttribute('shipColumns')), 
     shipRows: Number(canvas.getAttribute('shipRows')), 
     shipSize: Number(canvas.getAttribute('shipSize')), 
-    shipOffset: Number(canvas.getAttribute('shipOffset')),
+    shipOffset: shipOffset,
+    shipJump: shipOffset + Number(canvas.getAttribute('shipRows')),
     bulletLength: 3,
-  };
+  } 
+};
 
-  settings.shipJump = settings.shipOffset+settings.shipRows;
-
-  return settings;
-}
-
-
+function bindCustomHelpers (initCanvasProps) {
+  const { screenSettings, mapObservers } = initCanvasProps;
+  const battleHelper = getBattleHelper({ screenSettings, mapObservers });
+  return { battleHelper };
+};

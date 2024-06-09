@@ -12,7 +12,7 @@ export function setupBattleground ({ screenHelper }) {
 function setupDefender ({ screenHelper }) {
   const { battleHelper } = screenHelper;
   const newPos = battleHelper.get('defenderPosition');
-  buildShip({ screenHelper, newPos, shipStatus: STATUS.defender });  
+  buildEntity({ screenHelper, position: newPos, entityStatus: STATUS.defender });  
 };
 
 export function buildFleet ({ screenHelper }) {
@@ -36,30 +36,32 @@ export function buildFleet ({ screenHelper }) {
     const atLeftEdge = isAtLeftEdge({ newPos });
     if ( atLeftEdge ) { battleHelper.set(BATTLE_PROPS.atLeftEdge, true); }
 
-    buildShip({ 
-      screenHelper, newPos, shipStatus: STATUS.ship, fleetIndex: index 
+    buildEntity({ 
+      screenHelper, 
+      position: newPos, 
+      entityStatus: STATUS.ship, 
+      statusIndex: index 
     });
   }
 }
 
-export function buildShip (props) {
-  const { screenHelper, newPos, shipStatus, fleetIndex } = props
-  const { screenSettings, coordinateStatus, mapObservers } = screenHelper;
+export function buildEntity (props) {
+  const { screenHelper, position, entityStatus, statusIndex = null } = props
+  const { screenSettings, mapCoordinates, mapObservers } = screenHelper;
   const { getNextEntityPosition } = mapObservers;
   const { shipSize } = screenSettings;
   
   for ( let index = 0; index < shipSize*shipSize; index++ ) {
-    const position = getNextEntityPosition({ 
-      currentPos: newPos,
+    const nextPos = getNextEntityPosition({ 
+      currentPos: position,
       index, 
       entityColumns: shipSize,
     });
 
-    coordinateStatus.setStatus({ 
-      position, 
-      status: shipStatus, 
-      statusIndex: fleetIndex || null
+    mapCoordinates.setStatus({ 
+      position: nextPos, 
+      status: entityStatus, 
+      statusIndex 
     });    
   }  
 }
-
