@@ -16,7 +16,10 @@ export function startGame({ screenHelper }) {
     const tick = get(BATTLE_PROPS.tick);
     if (tick % invaderVelocityOffset === 1) { moveFleet({ screenHelper }); } 
     if (tick % 2 == 0) { checkForDefenderShot({ screenHelper }); }
-    if (tick % 50 == 0) { invaderAttack({ screenHelper }); }
+    // if (tick % 1 === 0) { invaderAttack({ screenHelper }); }
+
+    invaderAttack({ screenHelper });
+
     // if (tick % invaderVelocityOffset === 1) { invaderAttack({ screenHelper }); }
     // TODO:  accelerate fleet speed
     // if ( tick % 200 === 0 ) {
@@ -39,5 +42,4 @@ function moveFleet ({ screenHelper }) {
   mapCoordinates.clearStatus(STATUS.ship);
   setNextFleetStartPosition({ screenHelper });
   buildInvaderFleet({ screenHelper });
-  console.log('FINNNNNNISHHHHEHEEDDDD');
 }

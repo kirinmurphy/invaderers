@@ -15,6 +15,7 @@ export const BATTLE_PROPS = {
   defenderShotPosition: 'defenderShotPosition',
   deadBois: 'deadBois',
   shooters: 'shooters',
+  liveBullets: 'liveBullets',
 };
 
 export function getBattleHelper ({ screenSettings, mapObservers }) {  
@@ -29,6 +30,7 @@ export function getBattleHelper ({ screenSettings, mapObservers }) {
     [BATTLE_PROPS.invaderVelocityOffset]: 40,
     [BATTLE_PROPS.deadBois]: new Map(),
     [BATTLE_PROPS.shooters]: new Map(),
+    [BATTLE_PROPS.liveBullets]: new Map(),
   };
 
   return {
@@ -44,6 +46,9 @@ export function getBattleHelper ({ screenSettings, mapObservers }) {
       battleState[BATTLE_PROPS.shooters] = randomShooterSet; 
     },
     clearShooters: () => battleState[BATTLE_PROPS.shooters].clear(), 
+    updateState: ({ map, key, value }) => battleState[map].set(key, value),
+    deleteFromState: ({ map, key }) => battleState[map].delete(key),
+    clearStateMap: ({ map }) => battleState[map].clear(),
   }  
 }
 

@@ -11,8 +11,6 @@ export function getMapObservers ({ screenSettings }) {
     }
   }
 
-  const getColumnIndex = ({ position }) => position % mapColumns;
-  
   const isAt = {
     rightEdge: ({ newPos, itemOffset }) => {
       return (newPos % mapColumns) + itemOffset-1 === mapColumns;
@@ -26,6 +24,18 @@ export function getMapObservers ({ screenSettings }) {
     bottomRow: ({ newPos }) => {
       return newPos > (mapColumns - 1) * mapRows;
     }
+  }
+
+  const isAtOrOver = {
+    bottomRow: ({ newPos }) => { 
+      return newPos >= (mapColumns - 1) * mapRows; 
+    }
+  };
+
+  const getColumnIndex = ({ position }) => position % mapColumns;
+  
+  const getMaxColumnIndex = ({ entitySize, firstIndex = 1 }) => {
+    return mapColumns - entitySize + firstIndex;
   }
 
   const getNextEntityPosition = (props) => {
@@ -50,13 +60,10 @@ export function getMapObservers ({ screenSettings }) {
     return Math.ceil((mapColumns-entityColumns)/2);
   };
 
-  const getMaxColumnIndex = ({ entitySize, firstIndex = 1 }) => {
-    return mapColumns - entitySize + firstIndex;
-  }
-
   return {
     getCell,
     isAt,
+    isAtOrOver,
     getColumnIndex,
     getNextEntityPosition,
     getRowByMapPercentage,
