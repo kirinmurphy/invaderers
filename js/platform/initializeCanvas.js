@@ -8,7 +8,8 @@ export function initializeCanvas(props) {
     containerId, 
     fillColors, 
     bindCustomSettings, 
-    bindCustomHelpers 
+    bindCustomHelpers,
+    onReset
   } = props;  
 
   const canvas = document.getElementById(containerId);
@@ -23,14 +24,17 @@ export function initializeCanvas(props) {
     drawCanvas({ canvas, screenSettings, mapCoordinates, fillColors });
   };
 
-  const resetGame = () => { mapCoordinates.resetStatus(); };  
+  let resetGame;
 
   const initCanvasProps = { 
     screenSettings, 
     mapCoordinates, 
     mapObservers, 
     updateScreen,
-    resetGame
+    resetGame: () => { 
+      mapCoordinates.resetStatus(); 
+      onReset({ mapCoordinates, ...customHelpers });
+    }
   };
 
   const customHelpers = !!bindCustomHelpers 

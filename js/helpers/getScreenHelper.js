@@ -3,29 +3,30 @@ import { initializeCanvas } from '../platform/initializeCanvas.js';
 import { getBattleHelper } from './getBattleHelper.js';
 
 export function getScreenHelper ({ containerId }) {
-  // initializeCanvas returns
-  // screenSettings: default map settings, extended by bindCustomSettings
-  // mapCoordinates: coordinate helper to get/set properties of game map 
-  // mapObservers: helper methods to get relative coordinates of game map
-  // updateScreen: redraws map with whatever properties in mapCoordinates 
-  // ... and all properties returned by bindCustomHelpers 
+
   return initializeCanvas({ 
     containerId, 
     fillColors: COLORS, 
     bindCustomSettings,
-    bindCustomHelpers
+    bindCustomHelpers,
+    onReset
   });
 }
 
 function bindCustomSettings (canvas) { 
   const shipOffset = Number(canvas.getAttribute('shipOffset'));
+  const shipColumns =Number(canvas.getAttribute('shipColumns'));
+  const shipRows =Number(canvas.getAttribute('shipRows'));
+
   return {
-    shipColumns: Number(canvas.getAttribute('shipColumns')), 
-    shipRows: Number(canvas.getAttribute('shipRows')), 
+    shipRows,
+    shipColumns,
+    totalShips: shipRows*shipColumns,
     shipSize: Number(canvas.getAttribute('shipSize')), 
     shipOffset: shipOffset,
     shipJump: shipOffset + Number(canvas.getAttribute('shipRows')),
     bulletLength: 3,
+    shotsPerFrame: Number(canvas.getAttribute('shotsPerFrame')),
   } 
 };
 
@@ -34,3 +35,7 @@ function bindCustomHelpers (initCanvasProps) {
   const battleHelper = getBattleHelper({ screenSettings, mapObservers });
   return { battleHelper };
 };
+
+function onReset({ battleHelper }) {
+  battleHelper.resetGame();
+}

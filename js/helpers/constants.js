@@ -15,9 +15,9 @@ export const DIRECTIONS = {
 export const COLORS = {
   [STATUS.active]: '#fff',
   [STATUS.visited]: '#aaa',
-  [STATUS.ship]: '#6f6',
-  [STATUS.defender]: '#F84',
+  [STATUS.ship]: '#ff6',
+  [STATUS.defender]: '#fff',
   [STATUS.defenderShot]: 'orange',
   [STATUS.invaderShot]: 'red',
-  default: '#346'
+  default: '#000'
 };

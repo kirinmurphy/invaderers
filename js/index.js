@@ -7,7 +7,6 @@ import { startGame } from './startGame.js';
 (function () {
   const screenHelper = getScreenHelper({ containerId: 'canvas' }); 
   bindRestart({ containerId: 'restart', screenHelper });
-  setupBattleground({ screenHelper });
   bindDefenderActions({ screenHelper });
   startGame({ screenHelper });
 })();

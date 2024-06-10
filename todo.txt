@@ -1,16 +1,9 @@
 FIX: 
-- can't shoot first target
 - increased ship size blows up defender edge check 
 
 NEXT: 
-- DOING: add speed increase of ships 
-- DOING: defender shots 
+- add speed increase of ships 
+- make different speed for different bullets
+- make invaders change color 
 - barriers
-- presentation 
-- end game 
 
-
-invader shoots
-- in startGame animate fn, set a tick mark to check shooters  
-  - if there are shooters, FIRE
-    - add shooters after fleet gets built  

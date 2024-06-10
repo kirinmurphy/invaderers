@@ -12,23 +12,31 @@
     <!-- need to fix move defender action if shipSize changes -->
     <canvas 
       id="canvas"
+      width="500"
+      height="500"
       rows="100"
       columns="100"
       shipRows="5"
       shipColumns="10"
       shipSize="5"
       shipOffset="3"
-      width="500"
-      height="500"
+      shotsPerFrame="8"
     ></canvas>
   
     <div id="restart">
       <div class="inner">
-        <div class="message">CRASHED!</div>
-        <div class="score">
+        <!-- <div class="message">GAME OVER</div> -->
+        <!-- <div class="score">
           <span class="count"></span> points
+        </div> -->
+        <!-- <div class="message outcome"></div> -->
+        <div class="outcome-status won-addl" style="display:none">
+          <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGl5bmp0dG5yYm0zOWxqZW1zbndzbXh2djNvcXZhZ3N3NGdocm5iOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lgm0wJA3g3OBW/giphy.gif" />
         </div>
-        <button type="button">Restart</button>      
+        <div class="outcome-status lost-addl" style="display:none">
+          <img src="images/lost.gif" />
+        </div>
+        <button type="button">Play Again</button>      
       </div>
     </div>
   </div>

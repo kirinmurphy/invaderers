@@ -2,6 +2,7 @@ import { defenderDefend } from './defenderDefend.js';
 import { defenderMove } from './defenderMove.js';
 
 export function bindDefenderActions({ screenHelper }) {
+  const { battleHelper } = screenHelper;
   document.addEventListener('keydown', (event) => {
     if (event.target.getAttribute('data-last-key') !== event.key) {
       event.target.setAttribute('data-last-key', event.key);

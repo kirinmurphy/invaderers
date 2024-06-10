@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #000;
 }
 
 #canvas {
@@ -37,8 +38,8 @@
 }
 
 #restart .inner {
-  max-width: 250px;
-  width: 100%;
+  max-width: 830px;
+  width: 80%;
   padding: 5rem;
   margin: 0 auto;
   text-align: center;
@@ -57,14 +58,20 @@
   font-size: 1.5rem;
 }
 
+#restart .outcome-status img {
+  width: 90%;
+  max-width: 700px;
+}
+
 #restart .score {
 }
 
 button {
   color: #fff;
-  background: #008855;
+  font-weight: bold;
+  background: #005522;
   border: none;
-  padding: .75rem 1.5rem;
-  border-radius: .3rem;
+  padding: 1rem 2rem;
+  border-radius: 3px;
   font-size: 1.1rem;
 }

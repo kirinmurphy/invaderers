@@ -3,21 +3,23 @@ import { buildEntity } from "../helpers/buildEntity.js";
 import { STATUS } from "../helpers/constants.js";
 import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
 
-const SHOTS_PER_FRAME = 3;
-
 export function buildInvaderFleet ({ screenHelper }) {
   const { screenSettings, battleHelper, mapObservers } = screenHelper;
-  const { shipRows, shipColumns, shipSize, shipJump } = screenSettings;
+  const { shipColumns, totalShips, shipSize, shipJump, shotsPerFrame } = screenSettings;
   const { getNextEntityPosition, isAt } = mapObservers;
   const { deployPosition, deadBois } = battleHelper.get();
   
-  const totalCount = shipRows*shipColumns;
-
   const randomShooterSet = getRandomizedIndexCollection({ 
-    totalCount: totalCount, returnCount: SHOTS_PER_FRAME 
+    totalCount: totalShips, returnCount: shotsPerFrame
   });
   
-  for (let index = 0; index < totalCount; index++ ) {
+  const allKilled = deadBois.size === totalShips;
+
+  if ( allKilled ) {
+    battleHelper.endGame({ gameOutcome: 'won' });
+  }
+
+  for (let index = 0; index < totalShips; index++ ) {
     if ( deadBois.has(index) ) {
       if ( randomShooterSet.has(index) ) { randomShooterSet.delete(index); } 
 
