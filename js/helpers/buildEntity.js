@@ -4,6 +4,8 @@ export function buildEntity (props) {
   const { getNextEntityPosition } = mapObservers;
   const { shipSize } = screenSettings;
   
+  let allShipCoordinates = new Set();
+
   for ( let index = 0; index < shipSize*shipSize; index++ ) {
     const nextPos = getNextEntityPosition({ 
       currentPos: position,
@@ -11,10 +13,12 @@ export function buildEntity (props) {
       entityColumns: shipSize,
     });
 
+    allShipCoordinates.add(nextPos);
+
     mapCoordinates.setStatus({ 
       position: nextPos, 
       status: entityStatus, 
       statusIndex 
     });    
-  }  
+  }
 }

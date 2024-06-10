@@ -1,7 +1,6 @@
-import { buildEntity } from "./helpers/buildEntity.js";
 import { BATTLE_PROPS } from "./helpers/getBattleHelper.js";
-import { STATUS } from "./helpers/constants.js";
 import { buildInvaderFleet } from "./invaders/buildInvaderFleet.js";
+import { buildDefender } from "./defender/buildDefender.js";
 
 export function setupBattleground ({ screenHelper }) {
   const { battleHelper, updateScreen } = screenHelper;
@@ -14,5 +13,6 @@ export function setupBattleground ({ screenHelper }) {
 function setupDefender ({ screenHelper }) {
   const { battleHelper } = screenHelper;
   const newPos = battleHelper.get('defenderPosition');
-  buildEntity({ screenHelper, position: newPos, entityStatus: STATUS.defender });  
+  buildDefender({ screenHelper, newPos });
 };
+

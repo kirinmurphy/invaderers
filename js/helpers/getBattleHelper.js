@@ -8,6 +8,7 @@ export const BATTLE_PROPS = {
   tick: 'tick',
   deployPosition: 'deployPosition',
   defenderPosition: 'defenderPosition',
+  allDefenderCoordinates: 'allDefenderCoordinates',
   direction: 'direction',
   atRightEdge: 'atRightEdge',
   atLeftEdge: 'atLeftEdge',
@@ -23,6 +24,7 @@ export function getBattleHelper ({ screenSettings, mapObservers }) {
     [BATTLE_PROPS.tick]: 0,
     [BATTLE_PROPS.deployPosition]: getFleetGameStartPosition({ screenSettings, mapObservers }),
     [BATTLE_PROPS.defenderPosition]: getDefenderGameStartPosition({ screenSettings, mapObservers }),
+    [BATTLE_PROPS.allDefenderCoordinates]: new Set(),
     [BATTLE_PROPS.defenderShotPosition]: null,
     [BATTLE_PROPS.direction]: DIRECTIONS.right,
     [BATTLE_PROPS.atRightEdge]: false,
@@ -33,6 +35,10 @@ export function getBattleHelper ({ screenSettings, mapObservers }) {
     [BATTLE_PROPS.liveBullets]: new Map(),
   };
 
+  const updateTrackingFor = (map, { key, value }) => battleState[map].set(key, value);
+  const deleteTrackingFor = (map, { key }) => battleState[map].delete(key);
+  const clearTrackingFor = (map) => battleState[map].clear();
+
   return {
     get: (prop) => { 
       if (prop) return battleState[prop];
@@ -41,14 +47,18 @@ export function getBattleHelper ({ screenSettings, mapObservers }) {
     set: (prop, value) => battleState[prop] = value,
     increment: (prop) => battleState[prop] = battleState[prop]+1,
     decrement: (prop) => battleState[prop] = battleState[prop]-1,
+
+    updateTrackingFor,
+    deleteTrackingFor,
+    clearTrackingFor,
+
     addToKillList: (shipIndex) => battleState[BATTLE_PROPS.deadBois].set(shipIndex, true),
     addShooters: ({ randomShooterSet }) => { 
       battleState[BATTLE_PROPS.shooters] = randomShooterSet; 
     },
     clearShooters: () => battleState[BATTLE_PROPS.shooters].clear(), 
-    updateState: ({ map, key, value }) => battleState[map].set(key, value),
-    deleteFromState: ({ map, key }) => battleState[map].delete(key),
-    clearStateMap: ({ map }) => battleState[map].clear(),
+    
+    
   }  
 }
 

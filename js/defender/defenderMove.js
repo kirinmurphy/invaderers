@@ -1,6 +1,6 @@
-import { buildEntity } from '../helpers/buildEntity.js';
 import { DIRECTIONS, STATUS } from '../helpers/constants.js';
 import { BATTLE_PROPS } from '../helpers/getBattleHelper.js';
+import { buildDefender } from './buildDefender.js';
 
 const MOVE_DISTANCE = 3;
 
@@ -91,5 +91,5 @@ function actuallyMoveDefender (props) {
   mapCoordinates.clearStatus(STATUS.defender);
   const newPos = directionConfig.getNextPos({ position: currentPos, shipSize, mapObservers });
   battleHelper.set(BATTLE_PROPS.defenderPosition, newPos);
-  buildEntity({ screenHelper, position: newPos, entityStatus: STATUS.defender });
+  buildDefender({ screenHelper, newPos });
 }

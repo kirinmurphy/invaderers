@@ -3,7 +3,7 @@ import { buildEntity } from "../helpers/buildEntity.js";
 import { STATUS } from "../helpers/constants.js";
 import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
 
-const SHOTS_PER_FRAME = 10;
+const SHOTS_PER_FRAME = 3;
 
 export function buildInvaderFleet ({ screenHelper }) {
   const { screenSettings, battleHelper, mapObservers } = screenHelper;
