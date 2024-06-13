@@ -1,5 +1,5 @@
 import { startGame } from "./startGame.js";
-import { useCanvasHelper } from "./platform/canvasHelper.js";
+import { useInvadererHelper } from "./helpers/useInvadererHelper.js";
 
 const outcomeGifs = {
   won: '',
@@ -20,7 +20,7 @@ export function endGame ({ points, gameOutcome }) {
 }
 
 export function bindRestart({ containerId }) {
-  const { battleHelper } = useCanvasHelper();
+  const { battleHelper } = useInvadererHelper();
   const restartContainer = document.getElementById(containerId);
   const restartButton = restartContainer.querySelector('button');
   const restartBinding = () => restartGame({ restartContainer });
@@ -36,7 +36,7 @@ export function bindRestart({ containerId }) {
 };
 
 function restartGame ({ restartContainer }) {
-  const { resetGame } = useCanvasHelper();
+  const { resetGame } = useInvadererHelper();
   resetGame();
   startGame();
   restartContainer.style.display = 'none';

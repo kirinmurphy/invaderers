@@ -1,9 +1,9 @@
 import { STATUS } from "../helpers/constants.js";
 import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
-import { useCanvasHelper } from "../platform/canvasHelper.js";
+import { useInvadererHelper } from "../helpers/useInvadererHelper.js";
 
 export function invaderAttack() {
-  const { battleHelper, mapCoordinates } = useCanvasHelper();
+  const { battleHelper, mapCoordinates } = useInvadererHelper();
   const { get } = battleHelper;
   const { liveBullets } = get();
 
@@ -20,7 +20,7 @@ export function invaderAttack() {
 
 
 function addNewShootersToLiveBullets () {
-  const { battleHelper } = useCanvasHelper();
+  const { battleHelper } = useInvadererHelper();
   const { shooters } = battleHelper.get();
 
   for (const shooterPos of shooters.values()) {
@@ -32,7 +32,7 @@ function addNewShootersToLiveBullets () {
 
 
 function addNewShooterToLiveBullet ({ shooterPos }) {
-  const { battleHelper, mapObservers, screenSettings } = useCanvasHelper();
+  const { battleHelper, mapObservers, screenSettings } = useInvadererHelper();
   const { updateTrackingFor } = battleHelper;
   const { shipSize } = screenSettings;
   const { getCell } = mapObservers;
@@ -44,7 +44,7 @@ function addNewShooterToLiveBullet ({ shooterPos }) {
 
 
 function moveBullet ({ bulletPos }) {
-  const { battleHelper, mapCoordinates, mapObservers } = useCanvasHelper();
+  const { battleHelper, mapCoordinates, mapObservers } = useInvadererHelper();
   const { getCell, isAtOrOver } = mapObservers;
   const { updateTrackingFor, deleteTrackingFor } = battleHelper;
 

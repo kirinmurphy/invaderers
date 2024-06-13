@@ -22,9 +22,9 @@ function bindCustomSettings (canvas) {
     shipColumns,
     totalShips: shipRows*shipColumns,
     shipSize: Number(canvas.getAttribute('shipSize')), 
-    shipOffset: shipOffset,
+    shipOffset,
     shipJump: shipOffset + Number(canvas.getAttribute('shipRows')),
-    bulletLength: 3,
+    defenderBulletLength: Number(canvas.getAttribute('defenderBulletLength')),
     shotsPerFrame: Number(canvas.getAttribute('shotsPerFrame')),
   } 
 };

@@ -5,10 +5,10 @@ import { setNextFleetStartPosition } from "./invaders/setNextFleetStartPosition.
 import { checkForDefenderShot } from "./defender/checkForDefenderShot.js";
 import { invaderAttack } from "./invaders/invaderAttack.js";
 import { setupBattleground } from "./setupBattleground.js";
-import { useCanvasHelper } from "./platform/canvasHelper.js";
+import { useInvadererHelper } from "./helpers/useInvadererHelper.js";
 
 export function startGame() {
-  const { battleHelper, updateScreen } = useCanvasHelper();
+  const { battleHelper, updateScreen } = useInvadererHelper();
   const { increment, get } = battleHelper;
   
   setupBattleground();
@@ -34,7 +34,7 @@ export function startGame() {
 }
 
 function moveFleet () {
-  const { mapCoordinates } = useCanvasHelper();
+  const { mapCoordinates } = useInvadererHelper();
   mapCoordinates.clearStatus(STATUS.ship);
   setNextFleetStartPosition();
   buildInvaderFleet();

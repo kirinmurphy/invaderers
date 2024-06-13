@@ -1,10 +1,10 @@
 import { BATTLE_PROPS } from "./helpers/getBattleHelper.js";
 import { buildInvaderFleet } from "./invaders/buildInvaderFleet.js";
 import { buildDefender } from "./defender/buildDefender.js";
-import { useCanvasHelper } from "./platform/canvasHelper.js";
+import { useInvadererHelper } from "./helpers/useInvadererHelper.js";
 
 export function setupBattleground () {
-  const { battleHelper, updateScreen } = useCanvasHelper();
+  const { battleHelper, updateScreen } = useInvadererHelper();
   const fleetStartPosition = battleHelper.get(BATTLE_PROPS.fleetStartPosition);
   buildInvaderFleet({ fleetStartPosition });
   setupDefender();  
@@ -12,7 +12,7 @@ export function setupBattleground () {
 }
 
 function setupDefender () {
-  const { battleHelper } = useCanvasHelper();
+  const { battleHelper } = useInvadererHelper();
   const newPos = battleHelper.get('defenderPosition');
   buildDefender({ newPos });
 };

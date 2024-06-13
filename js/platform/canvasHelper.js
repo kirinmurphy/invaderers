@@ -1,11 +1,12 @@
 import { initializeCanvas } from "./initializeCanvas.js";
 
-let canvasHelper;
+const canvasHelpers = {};
 
 export function createCanvasHelper (props) {
-  canvasHelper = initializeCanvas(props);
+  const { containerId } = props;
+  canvasHelpers[containerId] = initializeCanvas(props);
 };
 
-export function useCanvasHelper() {
-  return canvasHelper;
+export function useCanvasHelper({ id }) {
+  return canvasHelpers[id];
 };

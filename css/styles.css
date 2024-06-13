@@ -10,7 +10,7 @@
   background: #000;
 }
 
-#canvas {
+#invaderers {
   max-width: 100vw;
   max-height: 100vh;
   display: flex;
@@ -20,7 +20,7 @@
 }
 
 @media (min-aspect-ratio: 1/1) {
-  #canvas {
+  #invaderers {
     width: 95vh; 
     height: 95vh; 
   }

@@ -1,3 +1,5 @@
+export const CANVAS_ID = 'invaderers';
+
 export const STATUS = {
   active: 'active',
   visited: 'visited',

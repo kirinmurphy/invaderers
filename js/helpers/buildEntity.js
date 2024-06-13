@@ -1,8 +1,8 @@
-import { useCanvasHelper } from "../platform/canvasHelper.js";
+import { useInvadererHelper } from "./useInvadererHelper.js";
 
 export function buildEntity (props) {
   const { position, entityStatus, statusIndex = null } = props;
-  const { screenSettings, mapCoordinates, mapObservers } = useCanvasHelper();
+  const { screenSettings, mapCoordinates, mapObservers } = useInvadererHelper();
   const { getNextEntityPosition } = mapObservers;
   const { shipSize } = screenSettings;
   

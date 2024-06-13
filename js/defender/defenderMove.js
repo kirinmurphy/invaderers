@@ -1,7 +1,7 @@
 import { DIRECTIONS, STATUS } from '../helpers/constants.js';
 import { BATTLE_PROPS } from '../helpers/getBattleHelper.js';
 import { buildDefender } from './buildDefender.js';
-import { useCanvasHelper } from "../platform/canvasHelper.js";
+import { useInvadererHelper } from "../helpers/useInvadererHelper.js";
 
 const MOVE_DISTANCE = 3;
 
@@ -77,7 +77,7 @@ const moveDefenderConfig = {
 }
 
 function triggerMoveDefender ({ direction }) {
-  const { battleHelper, mapObservers, screenSettings } = useCanvasHelper();
+  const { battleHelper, mapObservers, screenSettings } = useInvadererHelper();
   const { shipSize } = screenSettings;
   const currentPos = battleHelper.get(BATTLE_PROPS.defenderPosition);
   const directionConfig = moveDefenderConfig[direction];
@@ -87,7 +87,7 @@ function triggerMoveDefender ({ direction }) {
 
 function actuallyMoveDefender (props) {
   const { directionConfig, currentPos } = props;
-  const { mapCoordinates, screenSettings, battleHelper, mapObservers } = useCanvasHelper();
+  const { mapCoordinates, screenSettings, battleHelper, mapObservers } = useInvadererHelper();
   const { shipSize } = screenSettings;
   mapCoordinates.clearStatus(STATUS.defender);
   const newPos = directionConfig.getNextPos({ position: currentPos, shipSize, mapObservers });
