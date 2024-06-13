@@ -1,10 +1,9 @@
 import { COLORS } from './constants.js';
-import { initializeCanvas } from '../platform/initializeCanvas.js';
 import { getBattleHelper } from './getBattleHelper.js';
+import { ScreenHelper } from '../platform/ScreenHelper.js';
 
-export function getScreenHelper ({ containerId }) {
-
-  return initializeCanvas({ 
+export function initScreenHelper ({ containerId }) {
+  ScreenHelper.init({
     containerId, 
     fillColors: COLORS, 
     bindCustomSettings,
@@ -15,8 +14,8 @@ export function getScreenHelper ({ containerId }) {
 
 function bindCustomSettings (canvas) { 
   const shipOffset = Number(canvas.getAttribute('shipOffset'));
-  const shipColumns =Number(canvas.getAttribute('shipColumns'));
-  const shipRows =Number(canvas.getAttribute('shipRows'));
+  const shipColumns = Number(canvas.getAttribute('shipColumns'));
+  const shipRows = Number(canvas.getAttribute('shipRows'));
 
   return {
     shipRows,

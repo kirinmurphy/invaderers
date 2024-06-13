@@ -1,4 +1,5 @@
 import { startGame } from "./startGame.js";
+import { ScreenHelper } from "./platform/ScreenHelper.js";  
 
 const outcomeGifs = {
   won: '',
@@ -18,11 +19,11 @@ export function endGame ({ points, gameOutcome }) {
   }
 }
 
-export function bindRestart({ containerId, screenHelper }) {
-  const { battleHelper } = screenHelper;
+export function bindRestart({ containerId }) {
+  const { battleHelper } = ScreenHelper.get();
   const restartContainer = document.getElementById(containerId);
   const restartButton = restartContainer.querySelector('button');
-  const restartBinding = () => restartGame({ restartContainer, screenHelper });
+  const restartBinding = () => restartGame({ restartContainer });
   restartButton.addEventListener('click', restartBinding);
 
   const acceptableKeys = [' ', 'Enter'];
@@ -34,9 +35,10 @@ export function bindRestart({ containerId, screenHelper }) {
   });
 };
 
-function restartGame ({ restartContainer, screenHelper }) {
-  screenHelper.resetGame();
-  startGame({ screenHelper });
+function restartGame ({ restartContainer }) {
+  const { resetGame } = ScreenHelper.get();
+  resetGame();
+  startGame();
   restartContainer.style.display = 'none';
   restartContainer.querySelectorAll('.outcome-status')
     .forEach(el =>  el.style.display = 'none');

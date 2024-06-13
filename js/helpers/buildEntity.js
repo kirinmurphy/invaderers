@@ -1,6 +1,8 @@
+import { ScreenHelper } from "../platform/ScreenHelper.js";
+
 export function buildEntity (props) {
-  const { screenHelper, position, entityStatus, statusIndex = null } = props
-  const { screenSettings, mapCoordinates, mapObservers } = screenHelper;
+  const { position, entityStatus, statusIndex = null } = props;
+  const { screenSettings, mapCoordinates, mapObservers } = ScreenHelper.get();
   const { getNextEntityPosition } = mapObservers;
   const { shipSize } = screenSettings;
   

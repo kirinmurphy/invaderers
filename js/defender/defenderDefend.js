@@ -1,9 +1,10 @@
 import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
+import { ScreenHelper } from "../platform/ScreenHelper.js";
 
 const BULLET_DISTANCE = 3;
 
-export function defenderDefend ({ screenHelper }) {
-  const { battleHelper, screenSettings, mapObservers } = screenHelper;
+export function defenderDefend () {
+  const { battleHelper, screenSettings, mapObservers } = ScreenHelper.get();
   const { shipSize } = screenSettings;
   const { defenderShotPosition, defenderPosition } = battleHelper.get();
   

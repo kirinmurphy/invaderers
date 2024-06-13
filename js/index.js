@@ -1,12 +1,9 @@
 import { bindDefenderActions } from './defender/defenderActions.js';
 import { bindRestart } from './endGame.js';
-import { getScreenHelper } from './helpers/getScreenHelper.js';
-import { setupBattleground } from './setupBattleground.js';
+import { initScreenHelper } from './helpers/getScreenHelper.js';
 import { startGame } from './startGame.js';
 
-(function () {
-  const screenHelper = getScreenHelper({ containerId: 'canvas' }); 
-  bindRestart({ containerId: 'restart', screenHelper });
-  bindDefenderActions({ screenHelper });
-  startGame({ screenHelper });
-})();
+initScreenHelper({ containerId: 'canvas' });
+bindRestart({ containerId: 'restart' });
+bindDefenderActions();
+startGame();

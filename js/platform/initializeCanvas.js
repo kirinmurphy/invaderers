@@ -24,7 +24,6 @@ export function initializeCanvas(props) {
     drawCanvas({ canvas, screenSettings, mapCoordinates, fillColors });
   };
 
-  let resetGame;
 
   const initCanvasProps = { 
     screenSettings, 

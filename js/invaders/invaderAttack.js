@@ -1,39 +1,40 @@
 import { STATUS } from "../helpers/constants.js";
 import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
+import { ScreenHelper } from "../platform/ScreenHelper.js";
 
-export function invaderAttack({ screenHelper }) {
-  const { battleHelper, mapCoordinates } = screenHelper;
+export function invaderAttack() {
+  const { battleHelper, mapCoordinates } = ScreenHelper.get();
   const { get } = battleHelper;
   const { liveBullets } = get();
 
   mapCoordinates.clearStatus(STATUS.invaderShot);
 
-  addNewShootersToLiveBullets({ screenHelper });
+  addNewShootersToLiveBullets();
 
   const liveBulletKeys = Array.from(liveBullets.keys());
 
   for (const bulletPos of liveBulletKeys) {
-    moveBullet({ bulletPos, screenHelper });
+    moveBullet({ bulletPos });
   }
 }
 
 
-function addNewShootersToLiveBullets ({ screenHelper }) {
-  const { battleHelper } = screenHelper;
+function addNewShootersToLiveBullets () {
+  const { battleHelper } = ScreenHelper.get();
   const { shooters } = battleHelper.get();
 
   for (const shooterPos of shooters.values()) {
-    addNewShooterToLiveBullet({ shooterPos, screenHelper });
+    addNewShooterToLiveBullet({ shooterPos });
   }
 
   battleHelper.clearTrackingFor(BATTLE_PROPS.shooters);
 }
 
 
-function addNewShooterToLiveBullet ({ shooterPos, screenHelper }) {
-  const { battleHelper, mapObservers } = screenHelper;
+function addNewShooterToLiveBullet ({ shooterPos }) {
+  const { battleHelper, mapObservers, screenSettings } = ScreenHelper.get();
   const { updateTrackingFor } = battleHelper;
-  const { shipSize } = screenHelper.screenSettings;
+  const { shipSize } = screenSettings;
   const { getCell } = mapObservers;
 
   const distanceOffset = { xDistance: shipSize/2, yDistance: shipSize };
@@ -42,8 +43,8 @@ function addNewShooterToLiveBullet ({ shooterPos, screenHelper }) {
 }
 
 
-function moveBullet ({ bulletPos, screenHelper }) {
-  const { battleHelper, mapCoordinates, mapObservers } = screenHelper;
+function moveBullet ({ bulletPos }) {
+  const { battleHelper, mapCoordinates, mapObservers } = ScreenHelper.get();
   const { getCell, isAtOrOver } = mapObservers;
   const { updateTrackingFor, deleteTrackingFor } = battleHelper;
 

@@ -1,18 +1,19 @@
 import { BATTLE_PROPS } from "./helpers/getBattleHelper.js";
 import { buildInvaderFleet } from "./invaders/buildInvaderFleet.js";
 import { buildDefender } from "./defender/buildDefender.js";
+import { ScreenHelper } from "./platform/ScreenHelper.js";
 
-export function setupBattleground ({ screenHelper }) {
-  const { battleHelper, updateScreen } = screenHelper;
+export function setupBattleground () {
+  const { battleHelper, updateScreen } = ScreenHelper.get();
   const fleetStartPosition = battleHelper.get(BATTLE_PROPS.fleetStartPosition);
-  buildInvaderFleet({ screenHelper, fleetStartPosition });
-  setupDefender({ screenHelper });  
+  buildInvaderFleet({ fleetStartPosition });
+  setupDefender();  
   updateScreen();
 }
 
-function setupDefender ({ screenHelper }) {
-  const { battleHelper } = screenHelper;
+function setupDefender () {
+  const { battleHelper } = ScreenHelper.get();
   const newPos = battleHelper.get('defenderPosition');
-  buildDefender({ screenHelper, newPos });
+  buildDefender({ newPos });
 };
 

@@ -1,28 +1,32 @@
 import { STATUS } from "../helpers/constants.js";
 import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
+import { ScreenHelper } from "../platform/ScreenHelper.js";
 
-export function checkForDefenderShot ({ screenHelper }) {
-  const { mapCoordinates, battleHelper } = screenHelper;
+export function checkForDefenderShot () {
+  const { mapCoordinates, battleHelper } = ScreenHelper.get();
   const { defenderShotPosition } = battleHelper.get();
 
   mapCoordinates.clearStatus(STATUS.defenderShot);
 
   if ( defenderShotPosition ) {
-    moveBullet({ screenHelper, defenderShotPosition });
+    moveBullet({ defenderShotPosition });
   }
 }
 
-function moveBullet ({ screenHelper, defenderShotPosition}) {
-  const { mapCoordinates, battleHelper, mapObservers } = screenHelper;
+function moveBullet ({ defenderShotPosition }) {
+  const { mapCoordinates, battleHelper, mapObservers, screenSettings } = ScreenHelper.get();
   const { getCell } = mapObservers;
-  const { bulletLength } = screenHelper.screenSettings;
+  const { bulletLength } = screenSettings;
 
-  buildBullet({ screenHelper, bulletStartPosition: defenderShotPosition });
+  buildBullet({ 
+    bulletStartPosition: defenderShotPosition, 
+    status: STATUS.defenderShot 
+  });
     
   const invaderIndex = getInvaderIndex({ mapCoordinates, defenderShotPosition, getCell });
   
   if ( invaderIndex !== null) { 
-    obliterateInvader({ screenHelper, invaderIndex });
+    obliterateInvader({ invaderIndex });
   } else {
     const nextShotPosition = getNextShotPosition({ mapObservers, defenderShotPosition, bulletLength });
     battleHelper.set(BATTLE_PROPS.defenderShotPosition, nextShotPosition);  
@@ -37,8 +41,8 @@ function getInvaderIndex ({ mapCoordinates, defenderShotPosition, getCell }) {
   return isInvader ? possibleShipIndex : null;
 }
 
-function obliterateInvader ({ screenHelper, invaderIndex }) {
-  const { mapCoordinates, battleHelper } = screenHelper;
+function obliterateInvader ({ invaderIndex }) {
+  const { mapCoordinates, battleHelper } = ScreenHelper.get();
   battleHelper.set(BATTLE_PROPS.defenderShotPosition, null);
   battleHelper.addToKillList(invaderIndex);
   mapCoordinates.clearAllPositionsWithStatusIndex({ statusIndex: invaderIndex });
@@ -51,12 +55,12 @@ function getNextShotPosition ({ mapObservers, defenderShotPosition, bulletLength
   return moreBoardToGo ? newPos : null;
 }
 
-function buildBullet ({ screenHelper, bulletStartPosition }) {
-  const { mapCoordinates, screenSettings, mapObservers } = screenHelper;
+function buildBullet ({ bulletStartPosition, status }) {
+  const { mapCoordinates, screenSettings, mapObservers } = ScreenHelper.get();
   const { getCell } = mapObservers;
   const { bulletLength } = screenSettings;
   for (let  i = 0; i < bulletLength; i++) {
     const newPos = getCell.below(bulletStartPosition, { distance: i });
-    mapCoordinates.setStatus({ position: newPos, status: STATUS.defenderShot });
+    mapCoordinates.setStatus({ position: newPos, status });
   }
 }

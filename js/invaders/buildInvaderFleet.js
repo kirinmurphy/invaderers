@@ -2,9 +2,10 @@ import { getRandomizedIndexCollection } from "../platform/getRandomizedIndexColl
 import { buildEntity } from "../helpers/buildEntity.js";
 import { STATUS } from "../helpers/constants.js";
 import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
+import { ScreenHelper } from "../platform/ScreenHelper.js";
 
-export function buildInvaderFleet ({ screenHelper }) {
-  const { screenSettings, battleHelper, mapObservers } = screenHelper;
+export function buildInvaderFleet () {
+  const { screenSettings, battleHelper, mapObservers } = ScreenHelper.get();
   const { shipColumns, totalShips, shipSize, shipJump, shotsPerFrame } = screenSettings;
   const { getNextEntityPosition, isAt } = mapObservers;
   const { deployPosition, deadBois } = battleHelper.get();
@@ -41,7 +42,6 @@ export function buildInvaderFleet ({ screenHelper }) {
       if ( atLeftEdge ) { battleHelper.set(BATTLE_PROPS.atLeftEdge, true); }
     
       buildEntity({ 
-        screenHelper, 
         position: newPos, 
         entityStatus: STATUS.ship, 
         statusIndex: index 

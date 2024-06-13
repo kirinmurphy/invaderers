@@ -1,6 +1,7 @@
 import { DIRECTIONS, STATUS } from '../helpers/constants.js';
 import { BATTLE_PROPS } from '../helpers/getBattleHelper.js';
 import { buildDefender } from './buildDefender.js';
+import { ScreenHelper } from "../platform/ScreenHelper.js";
 
 const MOVE_DISTANCE = 3;
 
@@ -24,10 +25,10 @@ export function defenderMove (props) {
 // function moveAction (event) {
 //   switch (event.key) {
 //     case 'ArrowLeft':
-//       triggerMoveDefender({ screenHelper, direction: DIRECTIONS.left });
+//       triggerMoveDefender({ direction: DIRECTIONS.left });
 //       break;
 //     case 'ArrowRight':
-//       triggerMoveDefender({ screenHelper, direction: DIRECTIONS.right });
+//       triggerMoveDefender({ direction: DIRECTIONS.right });
 //       break;
 //     default:
 //       break;
@@ -39,9 +40,9 @@ const directionKeypressOptions = {
   ArrowRight: DIRECTIONS.right 
 };
 
-function moveAction ({ event: { key }, screenHelper }) {
+function moveAction ({ event: { key } }) {
   const direction = directionKeypressOptions[key];
-  !!direction && triggerMoveDefender({ screenHelper, direction });
+  !!direction && triggerMoveDefender({ direction });
 }
 
 const firstIndex = 1;
@@ -75,21 +76,21 @@ const moveDefenderConfig = {
   }
 }
 
-function triggerMoveDefender ({ screenHelper, direction }) {
-  const { battleHelper, mapObservers, screenSettings } = screenHelper;
+function triggerMoveDefender ({ direction }) {
+  const { battleHelper, mapObservers, screenSettings } = ScreenHelper.get();
   const { shipSize } = screenSettings;
   const currentPos = battleHelper.get(BATTLE_PROPS.defenderPosition);
   const directionConfig = moveDefenderConfig[direction];
   const canMove = directionConfig.canMove({ mapObservers, position: currentPos, shipSize });
-  if ( canMove ) { actuallyMoveDefender({ directionConfig, currentPos, screenHelper }); }
+  if ( canMove ) { actuallyMoveDefender({ directionConfig, currentPos }); }
 };
 
 function actuallyMoveDefender (props) {
-  const { directionConfig, currentPos, screenHelper } = props;
-  const { mapCoordinates, screenSettings, battleHelper, mapObservers } = screenHelper;
+  const { directionConfig, currentPos } = props;
+  const { mapCoordinates, screenSettings, battleHelper, mapObservers } = ScreenHelper.get();
   const { shipSize } = screenSettings;
   mapCoordinates.clearStatus(STATUS.defender);
   const newPos = directionConfig.getNextPos({ position: currentPos, shipSize, mapObservers });
   battleHelper.set(BATTLE_PROPS.defenderPosition, newPos);
-  buildDefender({ screenHelper, newPos });
+  buildDefender({ newPos });
 }
