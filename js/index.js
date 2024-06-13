@@ -1,9 +1,9 @@
 import { bindDefenderActions } from './defender/defenderActions.js';
-import { bindRestart } from './endGame.js';
-import { initScreenHelper } from './helpers/getScreenHelper.js';
+import { setupGame } from './helpers/setupGame.js';
 import { startGame } from './startGame.js';
+import { bindRestart } from './endGame.js';
 
-initScreenHelper({ containerId: 'canvas' });
+setupGame({ containerId: 'canvas' });
 bindRestart({ containerId: 'restart' });
 bindDefenderActions();
 startGame();

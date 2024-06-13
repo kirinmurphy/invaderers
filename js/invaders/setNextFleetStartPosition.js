@@ -1,9 +1,9 @@
 import { DIRECTIONS } from "../helpers/constants.js";
 import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
-import { ScreenHelper } from "../platform/ScreenHelper.js";
+import { useCanvasHelper } from "../platform/canvasHelper.js";
 
 export function setNextFleetStartPosition () {
-  const { battleHelper, mapObservers } = ScreenHelper.get();
+  const { battleHelper, mapObservers } = useCanvasHelper();
   const { getCell } = mapObservers;
   const { atRightEdge, atLeftEdge, direction } = battleHelper.get();
     

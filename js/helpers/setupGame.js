@@ -1,9 +1,9 @@
+import { createCanvasHelper } from '../platform/canvasHelper.js';
 import { COLORS } from './constants.js';
 import { getBattleHelper } from './getBattleHelper.js';
-import { ScreenHelper } from '../platform/ScreenHelper.js';
 
-export function initScreenHelper ({ containerId }) {
-  ScreenHelper.init({
+export function setupGame ({ containerId }) {
+  createCanvasHelper({
     containerId, 
     fillColors: COLORS, 
     bindCustomSettings,

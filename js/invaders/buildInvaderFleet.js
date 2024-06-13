@@ -2,10 +2,10 @@ import { getRandomizedIndexCollection } from "../platform/getRandomizedIndexColl
 import { buildEntity } from "../helpers/buildEntity.js";
 import { STATUS } from "../helpers/constants.js";
 import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
-import { ScreenHelper } from "../platform/ScreenHelper.js";
+import { useCanvasHelper } from "../platform/canvasHelper.js";
 
 export function buildInvaderFleet () {
-  const { screenSettings, battleHelper, mapObservers } = ScreenHelper.get();
+  const { screenSettings, battleHelper, mapObservers } = useCanvasHelper();
   const { shipColumns, totalShips, shipSize, shipJump, shotsPerFrame } = screenSettings;
   const { getNextEntityPosition, isAt } = mapObservers;
   const { deployPosition, deadBois } = battleHelper.get();

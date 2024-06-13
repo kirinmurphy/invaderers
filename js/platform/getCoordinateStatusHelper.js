@@ -1,4 +1,4 @@
-export function createCoordinateStatusHelper() {
+export function getCoordinateStatusHelper() {
   const initialStatusMap = new Map();
   const coordinateStatusMap = new Map(initialStatusMap);
 

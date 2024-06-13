@@ -1,9 +1,9 @@
 import { STATUS } from "../helpers/constants.js";
 import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";
-import { ScreenHelper } from "../platform/ScreenHelper.js";
+import { useCanvasHelper } from "../platform/canvasHelper.js";
 
 export function checkForDefenderShot () {
-  const { mapCoordinates, battleHelper } = ScreenHelper.get();
+  const { mapCoordinates, battleHelper } = useCanvasHelper();
   const { defenderShotPosition } = battleHelper.get();
 
   mapCoordinates.clearStatus(STATUS.defenderShot);
@@ -14,7 +14,7 @@ export function checkForDefenderShot () {
 }
 
 function moveBullet ({ defenderShotPosition }) {
-  const { mapCoordinates, battleHelper, mapObservers, screenSettings } = ScreenHelper.get();
+  const { mapCoordinates, battleHelper, mapObservers, screenSettings } = useCanvasHelper();
   const { getCell } = mapObservers;
   const { bulletLength } = screenSettings;
 
@@ -42,7 +42,7 @@ function getInvaderIndex ({ mapCoordinates, defenderShotPosition, getCell }) {
 }
 
 function obliterateInvader ({ invaderIndex }) {
-  const { mapCoordinates, battleHelper } = ScreenHelper.get();
+  const { mapCoordinates, battleHelper } = useCanvasHelper();
   battleHelper.set(BATTLE_PROPS.defenderShotPosition, null);
   battleHelper.addToKillList(invaderIndex);
   mapCoordinates.clearAllPositionsWithStatusIndex({ statusIndex: invaderIndex });
@@ -56,7 +56,7 @@ function getNextShotPosition ({ mapObservers, defenderShotPosition, bulletLength
 }
 
 function buildBullet ({ bulletStartPosition, status }) {
-  const { mapCoordinates, screenSettings, mapObservers } = ScreenHelper.get();
+  const { mapCoordinates, screenSettings, mapObservers } = useCanvasHelper();
   const { getCell } = mapObservers;
   const { bulletLength } = screenSettings;
   for (let  i = 0; i < bulletLength; i++) {

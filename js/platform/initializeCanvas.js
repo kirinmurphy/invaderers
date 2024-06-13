@@ -1,4 +1,4 @@
-import { createCoordinateStatusHelper } from './createCoordinateStatusHelper.js';
+import { getCoordinateStatusHelper } from './getCoordinateStatusHelper.js';
 import { getMapObservers } from './getMapObservers.js';
 import { drawCanvas } from './drawCanvas.js';
 import { getScreenSettings } from './getScreenSettings.js';
@@ -16,7 +16,7 @@ export function initializeCanvas(props) {
 
   const screenSettings = getScreenSettings({ canvas, bindCustomSettings });
 
-  const mapCoordinates = createCoordinateStatusHelper();
+  const mapCoordinates = getCoordinateStatusHelper();
 
   const mapObservers = getMapObservers({ screenSettings });
 
@@ -24,16 +24,17 @@ export function initializeCanvas(props) {
     drawCanvas({ canvas, screenSettings, mapCoordinates, fillColors });
   };
 
+  const resetGame = () => { 
+    mapCoordinates.resetStatus(); 
+    onReset({ mapCoordinates, ...customHelpers });
+  }; 
 
   const initCanvasProps = { 
     screenSettings, 
     mapCoordinates, 
     mapObservers, 
     updateScreen,
-    resetGame: () => { 
-      mapCoordinates.resetStatus(); 
-      onReset({ mapCoordinates, ...customHelpers });
-    }
+    resetGame
   };
 
   const customHelpers = !!bindCustomHelpers 

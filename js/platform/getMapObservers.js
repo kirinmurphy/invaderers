@@ -36,7 +36,7 @@ export function getMapObservers ({ screenSettings }) {
   
   const getMaxColumnIndex = ({ entitySize, firstIndex = 1 }) => {
     return mapColumns - entitySize + firstIndex;
-  }
+  };
 
   const getNextEntityPosition = (props) => {
     const { currentPos, index, entityColumns, itemOffset = 1} = props;

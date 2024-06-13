@@ -5,10 +5,10 @@ import { setNextFleetStartPosition } from "./invaders/setNextFleetStartPosition.
 import { checkForDefenderShot } from "./defender/checkForDefenderShot.js";
 import { invaderAttack } from "./invaders/invaderAttack.js";
 import { setupBattleground } from "./setupBattleground.js";
-import { ScreenHelper } from "./platform/ScreenHelper.js";
+import { useCanvasHelper } from "./platform/canvasHelper.js";
 
 export function startGame() {
-  const { battleHelper, updateScreen } = ScreenHelper.get();
+  const { battleHelper, updateScreen } = useCanvasHelper();
   const { increment, get } = battleHelper;
   
   setupBattleground();
@@ -33,15 +33,14 @@ export function startGame() {
   requestAnimationFrame(animate);
 }
 
-
 function moveFleet () {
-  const { mapCoordinates } = ScreenHelper.get();
+  const { mapCoordinates } = useCanvasHelper();
   mapCoordinates.clearStatus(STATUS.ship);
   setNextFleetStartPosition();
   buildInvaderFleet();
 }
 
-// if (tick % invaderVelocityOffset === 1) { invaderAttack({ screenHelper }); }
+// if (tick % invaderVelocityOffset === 1) { invaderAttack(); }
 // TODO:  accelerate fleet speed
 // if ( tick % 200 === 0 ) {
 //   const newOffset = invaderVelocityOffset > 10 ? invaderVelocityOffset - 10 : 1;
