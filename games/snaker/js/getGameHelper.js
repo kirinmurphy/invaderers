@@ -1,4 +1,4 @@
-import { endGame } from "../lib/canvasHelper/endGame.js";
+import { endGame } from "../../../lib/canvasHelper/endGame.js";
 import { DIRECTIONS, ELIGIBLE_DIRECTIONS } from "./constants.js";
 
 export function getGameHelper ({ starterDirection, screenSettings }) {

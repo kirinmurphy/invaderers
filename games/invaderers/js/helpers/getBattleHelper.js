@@ -1,4 +1,4 @@
-import { endGame } from "../../lib/canvasHelper/endGame.js";
+import { endGame } from "../../../../lib/canvasHelper/endGame.js";
 import { DIRECTIONS } from "./constants.js";
 
 const OFFSET_TOP_PERCENTAGE_DEFENDER = 90;

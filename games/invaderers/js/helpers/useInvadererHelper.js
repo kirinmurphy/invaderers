@@ -1,4 +1,4 @@
-import { useCanvasHelper } from "../../lib/canvasHelper/index.js";
+import { useCanvasHelper } from "../../../../lib/canvasHelper/index.js";
 import { CANVAS_ID } from "./constants.js";
 
 export function useInvadererHelper () {

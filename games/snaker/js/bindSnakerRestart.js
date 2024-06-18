@@ -1,4 +1,4 @@
-import { bindRestart } from "../lib/canvasHelper/bindRestart.js";
+import { bindRestart } from "../../../lib/canvasHelper/bindRestart.js";
 import { startGame } from "./startGame.js";
 import { useSnakerHelper } from "./useSnakerHelper.js";
 

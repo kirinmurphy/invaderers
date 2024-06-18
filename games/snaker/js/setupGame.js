@@ -1,4 +1,4 @@
-import { createCanvasHelper } from "../lib/canvasHelper/index.js";
+import { createCanvasHelper } from "../../../lib/canvasHelper/index.js";
 import { COLORS, DIRECTIONS } from "./constants.js";
 import { getGameHelper } from "./getGameHelper.js";
 

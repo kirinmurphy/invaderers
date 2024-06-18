@@ -1,7 +1,11 @@
 # codethings-canvas-helper 
 **codethings-canvas-helper** is a vanilla js library that provides tools to manipulate a `<canvas>` instance without touching the canvas layer. 
 
-The library expects a canvas html element and exposes two primary methods: `createCanvasHelper` and `useCanvasHelper`.
+The library expects a canvas html element and exposes several primary methods: 
+- **createCanvasHelper**: game setup
+- **useCanvasHelper**: acceess properties of the `canvasHelper`
+- **endGame**: display game end screen
+- **bindRestart**: binds restart logic to DOM elements
 
 
 # &lt;canvas&gt;
@@ -19,12 +23,13 @@ The library expects a canvas html element and exposes two primary methods: `crea
   shotsPerFrame="8"
 ></canvas>
 ```
-required fields include: `id`, `width`, `height`, `rows`, `columns`.    
-any other fields can be bound to the html element, or defined in `createCanvasHelper`
+- required fields include: `id`, `width`, `height`, `rows`, `columns`.    
+- any other fields can be bound to the html element, or defined in `createCanvasHelper`    
+- `id` must be unique
 
 
 # useCanvasHelper
-Exposes the properties of the `canvasHelper`, including the custom settings packaged in `createCanvasHelper`.    
+Exposes the properties of the `canvasHelper`, including the custom settings packaged in `createCanvasHelper` (below).    
 
 ```javascript
 import { useCanvasHelper } from 'codethings-canvas-helper';
@@ -40,28 +45,20 @@ const {
 } = useCanvasHelper({ id: 'space-invaders' });
 ```
 
-### screenSettings    
-stores all config settings for the game
 
-### mapCoordinates    
-CRUD actions and other helpers to manage the status of all canvas grid coordinates.     
-Each coordinate is an index that equals `rows*columns`.  TODO: remap `rows*columns` index to a `x:y` string, would simplify some of the coordinate calculations
+| **Property/Method**         | **Description**                                                                                                       |
+|----------------------|---------------------------------------------------------------------------------------------------------------------- |
+| **screenSettings**   | Stores all config settings for the game                                                                               |
+| **mapCoordinates**   | CRUD actions and helpers for canvas grid coordinates. Each coordinate is an index `rows*columns`.                     |
+| **mapObservers**     | Helper methods to find coordinates on the map, with access to `screenSettings`                                         |
+| **updateScreen**     | Executes redraw of canvas screen with coordinates in `mapCoordinates`. Usually used within `requestAnimationFrame`.    |
+| **resetGame**        | Resets `mapCoordinates` and fires optional `onReset` callback in `createCanvasHelper` initializer                      |
+| **someCustomHelper** | All other custom game helpers in `createCanvasHelper` are also available                                              |
 
-### mapObservers    
-helper methods to find coordinates on the map, with access to the `screenSettings` for the project 
 
-### updateScreen    
-calling `updateScreen()` executes redraw of canvas screen with whatever coordinates exist in `mapCoordinates`.     
-Usually used once to redraw within an `requestAnimationFrame` callback.  
 
-### resetGame    
 
-internally resets `mapCoordiantes` and fires an optional `onReset` callback provided in the `createCanvasHelper` initializer
-
-### someCustomHelper    
-all other custom game helpers bound in `createCanvasHelper` are also available
-
-## wrapping useCanvasHelper 
+# wrapping useCanvasHelper 
 avoid repetition/inconsistency by wrapping useCanvasHelper with a specific id 
 ```javascript
 import { useCanvasHelper } from 'codethings-canvas-helper';
@@ -153,7 +150,7 @@ Map coordinates currently store a `status` and `statusIndex` for each coordinate
 The `status`, reflected in the `fillColors` map (above), reflects the color assigned to the coordinate.     
 The `statusIndex` is an meta identifier that identifies elements within a scope of a specific status 
 
-| Property                         | Description                                                                 |
+| Method                         | Description                                                                 |
 |----------------------------------|-----------------------------------------------------------------------------|
 | getStatus                        | Retrieves the status of a coordinate.                                          |
 | setStatus                        | Sets the status and optional status index for a coordinate.                   |
@@ -170,7 +167,7 @@ The `statusIndex` is an meta identifier that identifies elements within a scope 
 # mapObservers 
 Collection of helpers that will find speicifc coordinates on the map 
 
-| Property                 | Description                                                                 |
+| Method                 | Description                                                                 |
 |--------------------------|-----------------------------------------------------------------------------|
 | getCell\[position\]      | Gets cell positions relative to the current position (`above`, `below`, `toTheLeft`, `toTheRight`).  |
 | isAt\[position\]         | Check if a position is at a specific edge or row (`topRow`, `bottomRow`, `rightEdge`, `leftEdge`).   |
@@ -181,3 +178,47 @@ Collection of helpers that will find speicifc coordinates on the map
 | getPositionByCoordinates | Converts row and column coordinates to a single position value.             |
 | getCenteredLeftOffset    | Calculates the left offset to center an entity on the map.        |
 | getMaxColumnIndex        | Gets the maximum column index for an entity of a given size.                |
+
+# endGame
+Include a `#restart` element somewhere on the page, with a single restart button.    
+Optional outcome html elements can be included `outcome-status` and `score`.          
+
+```html 
+<div id="restart">
+  <div class="inner">
+    <div class="outcome-status won-addl" style="display:none">
+      <!-- SUCCECSS CONTENT -->
+    </div>
+    
+    <div class="outcome-status lost-addl" style="display:none">
+      <!-- LOST CONTENT -->
+    </div>
+    
+    <div class="score">
+      <span class="count"></span> points
+    </div>
+
+    <button type="button">Play Again</button>      
+  </div>
+</div>
+```
+
+```javascript
+import { endGame } from "../../lib/canvasHelper/endGame.js";
+
+endGame({ points: 100, gameOutcome: 'won' });
+```
+
+# bindRestart
+depends on the same `#restart` element being present with singe button element
+
+
+```javascript
+import { bindRestart } from "../../lib/canvasHelper/bindRestart.js";
+
+bindRestart({ 
+  containerId: 'invaderers',
+  startGame: () => someMethodToStartGame(),
+  getGameOutcome: () => gameHelper.getGameOutcome()
+});
+```

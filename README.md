@@ -1,6 +1,6 @@
-# canvasHelper game library
+# codethings arcade
 
-A couple implementations of the [canvasHelper](./js/lib/canvasHelper/README.md) game library.    
+A few simple 2d games using a lightweight html canvas [game library](./lib/canvasHelper/README.md).     
 
 [Space Invaders](https://invaderers.codethings.net)    
 
