@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Invaderers</title>
+  <link rel="stylesheet" type="text/css" href="css/default.css">
+  <link rel="stylesheet" type="text/css" href="css/snaker.css">
+
+</head>
+<body>
+  <div id="wrapper">
+    <canvas 
+      id="canvas"
+      rows="80"
+      columns="80"
+      width="500"
+      height="500"
+    ></canvas>
+  
+    <div id="restart">
+      <div class="inner">
+        <div class="message">CRASHED!</div>
+        <div class="score">
+          <span class="count"></span> points
+        </div>
+        <button type="button">Restart</button>      
+      </div>
+    </div>
+  </div>  
+  
+  <script type="module" src="js/snaker/index.js"></script>
+</body>
+</html>
