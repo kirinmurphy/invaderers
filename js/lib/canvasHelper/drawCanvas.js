@@ -49,7 +49,7 @@ export function drawCanvas (props) {
 
 function getRectProps(props) {
   const { 
-    status, 
+    // status, 
     columnIndex, 
     rowIndex, 
     cellWidth, 
@@ -62,6 +62,20 @@ function getRectProps(props) {
     width: cellWidth,
     height: cellHeight
   };
+
+  // if (status === 'active') {
+  //   const multiplier = 2;
+  //   const offset = (multiplier - 1) / 2;
+
+  //   return {
+  //     ...baseProps,
+  //     x: baseProps.x - (cellWidth * offset),
+  //     y: baseProps.y - (cellHeight * offset),
+  //     width: cellWidth * multiplier,
+  //     height: cellHeight * multiplier,
+  //     isCircle: true 
+  //   };
+  // } 
 
   return { ...baseProps, isCircle: false };
 }

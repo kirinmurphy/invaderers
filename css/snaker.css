@@ -9,7 +9,7 @@
   align-items: center;
 }
 
-#canvas {
+#snaker {
   max-width: 100vw;
   max-height: 100vh;
   display: flex;
@@ -19,7 +19,7 @@
 }
 
 @media (min-aspect-ratio: 1/1) {
-  #canvas {
+  #snaker {
     width: 95vh; 
     height: 95vh; 
   }

@@ -1,4 +1,4 @@
-export function getScreenSettings({ canvas, bindCustomSettings }) {
+export function getScreenSettings({ canvas, bindCustomSettings = () => {} }) {
   const rows = Number(canvas.getAttribute('rows'));
   const columns = Number(canvas.getAttribute('columns'));
 
