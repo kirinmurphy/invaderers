@@ -1,4 +1,4 @@
-import { getRandomizedIndexCollection } from "../platform/getRandomizedIndexCollection.js";
+import { getRandomizedIndexCollection } from "../../lib/canvasHelper/getRandomizedIndexCollection.js";
 import { buildEntity } from "../helpers/buildEntity.js";
 import { STATUS } from "../helpers/constants.js";
 import { BATTLE_PROPS } from "../helpers/getBattleHelper.js";

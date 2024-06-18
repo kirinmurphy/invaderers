@@ -1,4 +1,4 @@
-import { createCanvasHelper } from '../platform/canvasHelper.js';
+import { createCanvasHelper } from '../../lib/canvasHelper/index.js';
 import { COLORS } from './constants.js';
 import { getBattleHelper } from './getBattleHelper.js';
 

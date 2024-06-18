@@ -1,10 +1,3 @@
-import { bindDefenderActions } from './defender/defenderActions.js';
-import { setupGame } from './helpers/setupGame.js';
-import { startGame } from './startGame.js';
-import { bindRestart } from './endGame.js';
-import { CANVAS_ID } from './helpers/constants.js';
+import { playInvaderers } from "./invaderers/index.js";
 
-setupGame({ containerId: CANVAS_ID });
-bindRestart({ containerId: 'restart' });
-bindDefenderActions();
-startGame();
+playInvaderers();
