@@ -3,30 +3,40 @@
 <head>
   <title>Invaderers</title>
   <link rel="stylesheet" type="text/css" href="css/default.css">
-  <link rel="stylesheet" type="text/css" href="games/snaker/styles.css">
+  <link rel="stylesheet" type="text/css" href="games/invaderers/styles.css">
+
   <link href="data:image/png;base64,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" rel="icon" type="image/x-icon">
 </head>
 <body>
   <div id="wrapper">
+    <!-- need to fix move defender action if shipSize changes -->
     <canvas 
-      id="snaker"
-      rows="80"
-      columns="80"
+      id="invaderers"
       width="500"
       height="500"
+      rows="100"
+      columns="100"
+      shipRows="5"
+      shipColumns="10"
+      shipSize="5"
+      shipOffset="3"
+      shotsPerFrame="8"
+      defenderBulletLength="3"
     ></canvas>
   
     <div id="restart">
       <div class="inner">
-        <div class="message">CRASHED!</div>
-        <div class="score">
-          <span class="count"></span> points
+        <div class="outcome-status won-addl" style="display:none">
+          <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGl5bmp0dG5yYm0zOWxqZW1zbndzbXh2djNvcXZhZ3N3NGdocm5iOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lgm0wJA3g3OBW/giphy.gif" />
         </div>
-        <button type="button">Restart</button>      
+        <div class="outcome-status lost-addl" style="display:none">
+          <img src="games/invaderers/images/lost.gif" />
+        </div>
+        <button type="button">Play Again</button>      
       </div>
     </div>
-  </div>  
-  
-  <script type="module" src="games/snaker/js/index.js"></script>
+  </div>
+
+  <script type="module" src="games/invaderers/js/index.js"></script>
 </body>
 </html>
